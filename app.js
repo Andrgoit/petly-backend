@@ -6,7 +6,7 @@ require("dotenv").config();
 
 // const noticeRouter = require("./api/noticeRouter");
 const authRouter = require("./routes/api/authRouter");
-// const serviceRouter = require("./api/serviceRouter");
+const serviceRouter = require("./routes/api/serviceRouter");
 const userRouter = require("./routes/api/userRouter");
 
 const app = express();
@@ -19,7 +19,7 @@ app.use(logger(formatsLogger));
 app.use(express.static("public"));
 
 app.use("/api/auth", authRouter);
-// app.use("/api", serviceRouter);
+app.use("/api", serviceRouter);
 app.use("/api/users", userRouter);
 // app.use("/api/notices", noticeRouter);
 

@@ -1,10 +1,11 @@
-const controller = require("../../controller/service");
-
 const express = require("express");
 const router = express.Router();
 
-router.get("/friends", controller.getFriends);
+const { controllerWrappers } = require("../../../helpers");
+const controller = require("../../../controllers/service");
 
-router.get("/news", controller.getNews);
+router.get("/friends", controllerWrappers(controller.getFriends));
+
+router.get("/news", controllerWrappers(controller.getNews));
 
 module.exports = router;

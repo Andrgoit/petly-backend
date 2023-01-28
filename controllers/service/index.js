@@ -5,7 +5,7 @@ const getFriends = async (_, res) => {
   res.status(200).send(friends);
 };
 
-const getNews = async (req, res, next) => {
+const getNews = async (_, res) => {
   const news = await listNews();
   res.status(200).send(news);
 };

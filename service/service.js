@@ -1,5 +1,5 @@
-const Friend = require("./schemas/friend");
-const News = require("./schemas/news");
+const Friend = require("../schemas/friendSchema");
+const News = require("../schemas/newsSchema");
 
 const listFriends = async () => {
   return await Friend.find();
