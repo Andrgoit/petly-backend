@@ -7,9 +7,20 @@ const controller = require("../../../controllers/auth");
 const authenticate = require("../../../middlewares/authenticate");
 const upload = require("../../../middlewares/upload");
 
-router.post("/register", controllerWrappers(controller.registration));
+const validateBody = require("../../../middlewares/validateBody");
+const schemas = require("../../../schemas/joiSchemas/users");
 
-router.post("/login", controllerWrappers(controller.login));
+router.post(
+  "/register",
+  validateBody(schemas.joiRegisterSchema),
+  controllerWrappers(controller.registration)
+); // validateUser
+
+router.post(
+  "/login",
+  validateBody(schemas.joiLoginSchema),
+  controllerWrappers(controller.login)
+); // validateUser//
 
 router.post("/logout", authenticate, controllerWrappers(controller.logout));
 
