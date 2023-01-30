@@ -1,0 +1,434 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "petly-backend docsI",
+    "description": "This is a simple API",
+    "contact": {
+      "email": "you@your-company.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000/api",
+      "description": "API on localhost"
+    },
+    {
+      "url": "https://petly-backend.onrender.com/api",
+      "description": "API on server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Autorization endpoints"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/registrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/registrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/400-Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/409-RegisterError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "Login's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A token for the user is returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Email or password is wrong",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/409-LoginError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Remove user's token",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/401-Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/update": {
+      "put": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Updating user data",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/updateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns updated user data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Треба ще добавити (Validation Error)",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/401-Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/409-RegisterError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "registrationRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "user's email",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "user's password",
+            "example": "password1234"
+          },
+          "name": {
+            "type": "string",
+            "description": "user's name",
+            "example": "User"
+          },
+          "location": {
+            "type": "string",
+            "description": "user's location",
+            "example": "Kyiv, Kyiv"
+          },
+          "phone": {
+            "type": "string",
+            "description": "user's phone",
+            "example": "+380981234567"
+          }
+        }
+      },
+      "registrationResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "user's email",
+            "example": "user@example.com"
+          },
+          "name": {
+            "type": "string",
+            "description": "user's name",
+            "example": "User"
+          },
+          "location": {
+            "type": "string",
+            "description": "user's location",
+            "example": "Kyiv, Kyiv"
+          },
+          "phone": {
+            "type": "string",
+            "description": "user's phone",
+            "example": "+380981234567"
+          }
+        }
+      },
+      "loginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "user's email",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "user's password",
+            "example": "password1234"
+          }
+        }
+      },
+      "loginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "format": "JWT",
+            "description": "user's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2Q5OGQ0ZWM1NzQ3ZjVjNDg0YjVlMSIsImlhdCI6MTY3NDQxODcyOCwiZXhwIjoxNjc0NDIyMzI4fQ.qmrt-kGVp-uJrhmBUt7NKLfBIhjGO7KvJC9KmX6Ujc8"
+          }
+        }
+      },
+      "401-Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Not authorized"
+          }
+        }
+      },
+      "400-Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Validation error"
+          }
+        }
+      },
+      "409-RegisterError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Email in use"
+          }
+        }
+      },
+      "409-LoginError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Email or password is wrong"
+          }
+        }
+      },
+      "updateRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "user's email",
+            "example": [
+              "user@example.com",
+              "user2@example.com"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "user's name",
+            "example": "User"
+          },
+          "location": {
+            "type": "string",
+            "description": "user's location",
+            "example": "Kyiv, Kyiv"
+          },
+          "phone": {
+            "type": "string",
+            "description": "user's phone",
+            "example": "+380981234567"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date",
+            "description": "User's birthdate",
+            "example": "2000-04-29T00:00:00.000Z"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "user's photo"
+          }
+        }
+      },
+      "updateResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "user's email",
+            "example": "user@example.com"
+          },
+          "name": {
+            "type": "string",
+            "description": "user's name",
+            "example": "User"
+          },
+          "location": {
+            "type": "string",
+            "description": "user's location",
+            "example": "Kyiv, Kyiv"
+          },
+          "phone": {
+            "type": "string",
+            "description": "user's phone",
+            "example": "+380981234567"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date",
+            "description": "User's birthdate",
+            "example": "29-04-2000"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "user's photo url",
+            "example": "users\\63d0e44bcef6ec0c774d22e0.jpg"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

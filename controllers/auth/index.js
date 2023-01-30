@@ -1,28 +1,22 @@
 // const updateAvatar = require("../../middlewares/updateAvatar");
 const createToken = require("../../helpers/createToken");
-const serviceUser = require("../../service/user");
+const service = require("../../service/user");
 
 const { getFileUrl, HttpError } = require("../../helpers");
 
 const mainDir = "users";
 const sizeAvatar = [233, 233];
 
-const registration = async (req, res, next) => {
+const registration = async (req, res) => {
   const { email, password, name, location, phone } = req.body;
 
-  const user = await serviceUser.getUser(email);
+  const user = await service.getUser(email);
 
   if (user) {
     throw HttpError(409, "Email in use");
   }
 
-  const newUser = await serviceUser.addUser(
-    email,
-    name,
-    location,
-    phone,
-    password
-  );
+  const newUser = await service.addUser(email, name, location, phone, password);
 
   res.status(201).json({
     email,
@@ -32,10 +26,10 @@ const registration = async (req, res, next) => {
   });
 };
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await serviceUser.getUser(email);
+  const user = await service.getUser(email);
 
   if (!user || !user.validPassword(password)) {
     throw HttpError(409, "Email or password is wrong");
@@ -45,33 +39,44 @@ const login = async (req, res, next) => {
 
   const token = createToken(_id);
 
-  await serviceUser.updateToken(_id, token);
+  await service.updateToken(_id, token);
 
   res.status(200).json({ token });
 };
 
-const logout = async (req, res, next) => {
-  await serviceUser.updateToken(req.user.id, null);
+const logout = async (req, res) => {
+  await service.updateToken(req.user.id, null);
 
   res.status(204).json();
 };
 
-const update = async (req, res, next) => {
-  const { fieldName } = req.params;
-  let value = req.body[fieldName];
+const update = async (req, res) => {
+  const { email, name, location, phone, birthdate } = req.body;
+
+  const user = await service.getUser(email);
+
+  if (user) {
+    throw HttpError(409, "Email in use");
+  }
+
+  let avatar;
   const { _id } = req.user;
 
-  if (fieldName === "avatar") {
-    value = getFileUrl(req.file, mainDir, _id, sizeAvatar);
+  if (req.file) {
+    avatar = getFileUrl(req.file, mainDir, _id, sizeAvatar);
   }
 
-  const body = { [fieldName]: value };
+  const result = await service.updateUser(_id, {
+    email,
+    name,
+    location,
+    phone,
+    birthdate,
+    avatar,
+  });
 
-  const result = await serviceUser.updateUser(_id, body);
-
-  if (result) {
-    return res.status(200).json(body);
-  }
+  console.log(result.birthdate);
+  res.status(200).json(result);
 };
 
 module.exports = {
