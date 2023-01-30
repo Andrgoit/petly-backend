@@ -36,6 +36,7 @@ const userSchema = new Schema(
     },
     birthdate: {
       type: Date,
+      transform: (v) => v.toLocaleDateString(),
       default: null,
     },
     token: {
