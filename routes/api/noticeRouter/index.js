@@ -1,25 +1,44 @@
 const express = require("express");
 const router = express.Router();
 
-const controller = require("../../controller/notice");
-const auth = require("../../middlewares/auth");
-const upload = require("../../middlewares/upload");
+const { controllerWrappers } = require("../../../helpers");
 
-router.get("/favorites", auth, controller.getUserFavorites);
+const controller = require("../../../controllers/notice");
+const authenticate = require("../../../middlewares/authenticate");
+const upload = require("../../../middlewares/upload");
 
-router.get("/current", auth, controller.getCurrent);
+router.get("/category/:categoryName", controllerWrappers(controller.get));
 
-router.get("/", controller.get);
+router.get("/:id", controllerWrappers(controller.getById));
 
-router.get("/:id", controller.getById);
+router.get(
+  "/favorites",
+  authenticate,
+  controllerWrappers(controller.getUserFavorites)
+);
 
-router.delete("/:id", auth, controller.remove);
+router.get("/current", authenticate, controllerWrappers(controller.getCurrent));
 
-router.patch("/:id/addfavorite", auth, controller.addUserToFavorite);
+router.delete("/:id", authenticate, controllerWrappers(controller.remove));
 
-router.patch("/:id/removefavorite", auth, controller.removeUserWithFavorite);
+router.patch(
+  "/:id/addfavorite",
+  authenticate,
+  controllerWrappers(controller.addUserToFavorite)
+);
 
-router.post("/", auth, upload.single("avatar"), controller.create);
+router.patch(
+  "/:id/removefavorite",
+  authenticate,
+  controllerWrappers(controller.removeUserWithFavorite)
+);
+
+router.post(
+  "/",
+  authenticate,
+  upload.single("avatar"),
+  controllerWrappers(controller.create)
+);
 
 // router.delete("/:id", auth, controller.remove);
 

@@ -6,7 +6,7 @@ const swaggerDocument = require("./swagger.json");
 
 require("dotenv").config();
 
-// const noticeRouter = require("./api/noticeRouter");
+const noticeRouter = require("./routes/api/noticeRouter");
 const authRouter = require("./routes/api/authRouter");
 const serviceRouter = require("./routes/api/serviceRouter");
 const userRouter = require("./routes/api/userRouter");
@@ -24,7 +24,7 @@ app.use(express.static("public"));
 app.use("/api/auth", authRouter);
 app.use("/api", serviceRouter);
 app.use("/api/users", userRouter);
-// app.use("/api/notices", noticeRouter);
+app.use("/api/notices", noticeRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

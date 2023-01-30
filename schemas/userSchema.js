@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema, SchemaTypes } = require("mongoose");
 const bCrypt = require("bcryptjs");
 
 // eslint-disable-next-line no-useless-escape
@@ -43,7 +43,13 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    favorite: {
+      type: Array(SchemaTypes.ObjectId),
+      ref: "notice",
+      default: [],
+    },
   },
+
   { versionKey: false }
 );
 
