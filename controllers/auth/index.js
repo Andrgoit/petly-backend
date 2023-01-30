@@ -75,7 +75,6 @@ const update = async (req, res) => {
     avatar,
   });
 
-  console.log(result.birthdate);
   res.status(200).json(result);
 };
 

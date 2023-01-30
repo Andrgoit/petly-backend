@@ -1,8 +1,8 @@
-const { Schema, model, SchemaTypes } = require("mongoose");
+const { Schema, SchemaTypes } = require("mongoose");
 
-const notice = new Schema(
+const noticeSchema = new Schema(
   {
-    type: {
+    category: {
       type: String,
       enum: ["sell", "lostfound", "ingoodhands"],
       required: [true, "Notice type is required"],
@@ -54,11 +54,6 @@ const notice = new Schema(
       maxLength: 120,
       required: [true, "Comments is required"],
     },
-    favorite: {
-      type: Array(SchemaTypes.ObjectId),
-      ref: "user",
-      default: [],
-    },
     owner: {
       type: SchemaTypes.ObjectId,
       ref: "user",
@@ -68,6 +63,4 @@ const notice = new Schema(
   { versionKey: false }
 );
 
-const Notice = model("notice", notice);
-
-module.exports = Notice;
+module.exports = noticeSchema;

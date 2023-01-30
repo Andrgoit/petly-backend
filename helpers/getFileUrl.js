@@ -1,7 +1,13 @@
+const cloudinary = require("cloudinary").v2;
 const path = require("path");
 // const fs = require("fs/promises");
-
 const Jimp = require("jimp");
+
+cloudinary.config({
+  cloud_name: "YOUR_CLOUD_NAME",
+  api_key: "YOUR_API_NAME",
+  api_secret: "YOUR_API_SECRET",
+});
 
 const getFileUrl = (file, uploadDir, fileName, size) => {
   const avatarDir = path.join(process.cwd(), "public", uploadDir);

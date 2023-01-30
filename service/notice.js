@@ -1,4 +1,8 @@
-const Notice = require("./schemas/notice");
+const Notice = require("../models/notice");
+
+const listNoticesByCategory = async (category) => {
+  return Notice.find({ category });
+};
 
 const addNotice = async (type, price, args) => {
   let filter = { type, ...args };
@@ -16,10 +20,6 @@ const updateNoticeAvatar = async (_id, avatar) => {
     { avatar: avatar },
     { returnDocument: "after" }
   );
-};
-
-const listNoticesByType = async (type) => {
-  return Notice.find({ type });
 };
 
 const getById = async (_id) => {
@@ -57,7 +57,7 @@ const listNotices = async (userId) => {
 module.exports = {
   addNotice,
   updateNoticeAvatar,
-  listNoticesByType,
+  listNoticesByCategory,
   addToFavoriteList,
   removeWithFavoriteList,
   listFavoriteNotice,
