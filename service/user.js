@@ -24,6 +24,7 @@ const updateToken = async (id, token = null) => {
 const updateUser = async (_id, body) => {
   return User.findOneAndUpdate(_id, body, {
     returnDocument: "after",
+    fields: { _id: 0, password: 0, token: 0 },
   });
 };
 

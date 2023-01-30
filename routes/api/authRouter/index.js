@@ -3,30 +3,21 @@ const router = express.Router();
 
 const { controllerWrappers } = require("../../../helpers");
 const controller = require("../../../controllers/auth");
-// const {
-//   validateUser,
-//   validateUpdateField,
-// } = require("../../middlewares/validator");
 
 const authenticate = require("../../../middlewares/authenticate");
 const upload = require("../../../middlewares/upload");
 
-router.post("/register", controllerWrappers(controller.registration)); // validateUser
+router.post("/register", controllerWrappers(controller.registration));
 
-router.post("/login", controllerWrappers(controller.login)); // validateUser//
+router.post("/login", controllerWrappers(controller.login));
 
-router.post("/logout", authenticate, controllerWrappers(controller.logout)); // auth
+router.post("/logout", authenticate, controllerWrappers(controller.logout));
 
-router.patch(
-  "/update/:fieldName",
+router.put(
+  "/update",
   authenticate,
   upload.single("avatar"),
-  // validateUpdateField,
   controllerWrappers(controller.update)
 );
-
-// router.patch("/",
-//   controller.updateStatusSubscription // auth, ValidateSubscription
-// );
 
 module.exports = router;
