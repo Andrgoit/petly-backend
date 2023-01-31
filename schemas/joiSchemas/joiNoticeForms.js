@@ -52,7 +52,7 @@ const joiNoticeFormsSell = Joi.object({
   birthdate: Joi.string().pattern(dataRegExp).error(birthdateError),
   breed: Joi.string().pattern(noticeBreedRegExp).error(breedError),
   location: Joi.string().pattern(locationRegExp).error(locationError),
-  price: Joi.number().pattern(noticePriceRegExp).error(priceError).required(),
+  price: Joi.string().pattern(noticePriceRegExp).error(priceError).required(),
   comments: Joi.string()
     .pattern(commentsRegExp)
     .error(commentsError)

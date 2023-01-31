@@ -2,7 +2,7 @@
 const createToken = require("../../helpers/createToken");
 const service = require("../../service/user");
 
-const { getFileUrl, HttpError } = require("../../helpers");
+const { uploadToCloudinary, HttpError } = require("../../helpers");
 
 const mainDir = "users";
 const sizeAvatar = [233, 233];
@@ -63,7 +63,13 @@ const update = async (req, res) => {
   const { _id } = req.user;
 
   if (req.file) {
-    avatar = getFileUrl(req.file, mainDir, _id, sizeAvatar);
+    const { url } = await uploadToCloudinary(
+      req.file,
+      mainDir,
+      _id,
+      sizeAvatar
+    );
+    avatar = url;
   }
 
   const result = await service.updateUser(_id, {
@@ -75,7 +81,6 @@ const update = async (req, res) => {
     avatar,
   });
 
-  console.log(result.birthdate);
   res.status(200).json(result);
 };
 

@@ -1,4 +1,4 @@
-const { getFileUrl, removeFile } = require("../../helpers");
+const { uploadToCloudy, removeFileWithCloudinary } = require("../../helpers");
 
 const { addPet, listPets, removePet } = require("../../service/pet");
 const Pet = require("../../models/pets");
@@ -26,9 +26,14 @@ const create = async (req, res, next) => {
   const newPet = new Pet({ name, birthdate, breed, comments, owner });
 
   if (req.file) {
-    const avatarUrl = getFileUrl(req.file, mainDir, newPet._id, sizeAvatar);
+    const avatar = await uploadToCloudy(
+      req.file,
+      mainDir,
+      newPet._id,
+      sizeAvatar
+    );
 
-    newPet.avatar = avatarUrl;
+    newPet.avatar = avatar;
   }
 
   const result = await addPet(newPet);
@@ -42,11 +47,13 @@ const remove = async (req, res, next) => {
   const result = await removePet(id);
 
   if (result) {
-    if (result.avatar) {
-      removeFile(result.avatar);
+    const publicId = result.avatar.public_id;
+
+    if (publicId) {
+      removeFileWithCloudinary(publicId);
     }
 
-    res.status(204).json();
+    return res.status(204).json();
   }
 
   res.status(404).json({ message: "Pet not found" });
