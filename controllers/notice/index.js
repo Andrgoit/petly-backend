@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs/promises");
 
 const service = require("../../service/notice");
+
 const serviceUser = require("../../service/user");
 const {
   uploadToCloudinary,
@@ -12,6 +13,9 @@ const Notice = require("../../models/notice");
 
 const mainDir = "notices";
 const sizeAvatar = [336, 336];
+
+
+
 
 const avatarDir = path.join(process.cwd(), "public", "notices");
 

@@ -6,6 +6,7 @@ const { controllerWrappers } = require("../../../helpers");
 const controller = require("../../../controllers/notice");
 const authenticate = require("../../../middlewares/authenticate");
 const upload = require("../../../middlewares/upload");
+const validateNoticeForm = require("../../../middlewares/validateNoticeForm");
 
 router.get("/category/:categoryName", controllerWrappers(controller.get));
 
@@ -14,6 +15,7 @@ router.get("/:id", controllerWrappers(controller.getById));
 router.post(
   "/",
   authenticate,
+  validateNoticeForm,
   upload.single("avatar"),
   controllerWrappers(controller.create)
 );
@@ -39,6 +41,7 @@ router.patch(
   authenticate,
   controllerWrappers(controller.removeUserWithFavorite)
 );
+
 
 // router.delete("/:id", auth, controller.remove);
 
