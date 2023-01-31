@@ -2,10 +2,16 @@ const path = require("path");
 const fs = require("fs/promises");
 
 const service = require("../../service/notice");
-const { getFileUrl, HttpError } = require("../../helpers");
+const serviceUser = require("../../service/user");
+const {
+  uploadToCloudinary,
+  removeFileWithCloudinary,
+  HttpError,
+} = require("../../helpers");
+const Notice = require("../../models/notice");
 
 const mainDir = "notices";
-const sizeAvatar = [233, 233];
+const sizeAvatar = [336, 336];
 
 const avatarDir = path.join(process.cwd(), "public", "notices");
 
@@ -18,57 +24,65 @@ const get = async (req, res) => {
 };
 
 const getById = async (req, res) => {
-  const result = await service.getById(req.params.id);
+  const notice = await service.getById(req.params.id);
 
-  if (result) {
-    return res.status(200).json(result);
+  console.log(notice);
+  if (notice) {
+    const user = await serviceUser.getUserById(notice.owner);
+
+    console.log(user);
+
+    if (user) {
+      return res.status(200).json({ notice, user });
+    }
   }
 
   throw HttpError(404, "Not found");
 };
 
 const create = async (req, res) => {
-  const { type } = req.query;
   const owner = req.user._id;
 
-  const { title, name, birthdate, breed, comments, price, sex, location } =
-    req.body;
+  const {
+    category,
+    title,
+    name,
+    birthdate,
+    breed,
+    comments,
+    price,
+    sex,
+    location,
+  } = req.body;
 
-  try {
-    let result = await service.addNotice(type, price, {
-      title,
-      name,
-      birthdate,
-      breed,
-      comments,
-      sex,
-      location,
-      owner,
-    });
+  const newNotice = new Notice({
+    category,
+    title,
+    name,
+    birthdate,
+    breed,
+    comments,
+    sex,
+    location,
+    owner,
+  });
 
-    if (req.file) {
-      const { filename, path: tempUpload } = req.file;
+  category === "sell" ? (newNotice.price = price) : (newNotice.price = null);
 
-      const [extention] = filename.split(".").reverse();
+  if (req.file) {
+    const avatar = await uploadToCloudinary(
+      req.file,
+      mainDir,
+      newNotice._id,
+      sizeAvatar
+    );
 
-      const avatarName = `${result._id}.${extention}`;
-      const avatarUpload = path.join(avatarDir, avatarName);
-
-      fs.rename(tempUpload, avatarUpload);
-
-      const avatar = path.join("notices", avatarName);
-
-      result = await service.updateNoticeAvatar(result._id, avatar);
-    }
-
-    res.status(201).json(result);
-  } catch (error) {
-    const errorsKeys = Object.keys(error.errors);
-
-    res
-      .status(400)
-      .json({ message: `missing required fields: ${errorsKeys.join(", ")}` });
+    newNotice.avatar = avatar;
   }
+
+  const result = await service.addNotice(newNotice);
+
+  res.status(201).json(result);
 };
 
 const remove = async (req, res, next) => {

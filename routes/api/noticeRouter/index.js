@@ -11,6 +11,13 @@ router.get("/category/:categoryName", controllerWrappers(controller.get));
 
 router.get("/:id", controllerWrappers(controller.getById));
 
+router.post(
+  "/",
+  authenticate,
+  upload.single("avatar"),
+  controllerWrappers(controller.create)
+);
+
 router.get(
   "/favorites",
   authenticate,
@@ -31,13 +38,6 @@ router.patch(
   "/:id/removefavorite",
   authenticate,
   controllerWrappers(controller.removeUserWithFavorite)
-);
-
-router.post(
-  "/",
-  authenticate,
-  upload.single("avatar"),
-  controllerWrappers(controller.create)
 );
 
 // router.delete("/:id", auth, controller.remove);
