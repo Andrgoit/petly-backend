@@ -1,4 +1,4 @@
-const { Schema, model, SchemaTypes } = require("mongoose");
+const { Schema, SchemaTypes } = require("mongoose");
 
 const petSchema = new Schema(
   {
@@ -20,8 +20,8 @@ const petSchema = new Schema(
       default: null,
     },
     avatar: {
-      type: String,
-      default: null,
+      public_id: { type: String, default: null },
+      url: { type: String, default: null },
     },
     comments: {
       type: String,
