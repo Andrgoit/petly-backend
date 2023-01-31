@@ -1,14 +1,13 @@
 const Notice = require("../models/notice");
 
 const listNoticesByCategory = async (category) => {
-  return Notice.find({ category }, [
-    "title",
-    "breed",
-    "location",
-    "birthdate",
-    "price",
-    "avatar",
-  ]);
+  const filterResponse = ["title", "breed", "location", "birthdate", "avatar"];
+
+  if (category === "sell") {
+    filterResponse.push("price");
+  }
+
+  return Notice.find({ category }, filterResponse);
 };
 
 const addNotice = async (body) => {

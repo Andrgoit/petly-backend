@@ -85,6 +85,7 @@ const create = async (req, res) => {
   res.status(201).json(result);
 };
 
+// не переробив
 const remove = async (req, res, next) => {
   const result = await service.removeNotice(req.params.id, req.user._id);
 
