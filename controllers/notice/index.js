@@ -2,10 +2,11 @@ const path = require("path");
 const fs = require("fs/promises");
 
 const service = require("../../service/notice");
-const { getFileUrl, HttpError } = require("../../helpers");
+const { HttpError } = require("../../helpers");
+// const { getFileUrl, HttpError } = require("../../helpers");
 
-const mainDir = "notices";
-const sizeAvatar = [233, 233];
+// const mainDir = "notices";
+// const sizeAvatar = [233, 233];
 
 const avatarDir = path.join(process.cwd(), "public", "notices");
 
