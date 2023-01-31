@@ -9,8 +9,8 @@ const {
 const validateNoticeForm = (req, res, next) => {
   try {
     // category или type???
-    // const { category } = req.query;
-    const { category } = req.params;
+    const { category } = req.query;
+    // const { category } = req.params;
     const noticeForm = req.body;
     if (category === "sell") {
       const { error } = joiNoticeFormsSell.validate(noticeForm);
