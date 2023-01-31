@@ -4,6 +4,10 @@ const User = require("../models/user");
 const getUser = async (email) => {
   return await User.findOne({ email });
 };
+
+const getUserById = async (id) => {
+  return await User.findOne(id, { email: 1, phone: 1, _id: 0 });
+};
 // +
 const addUser = async (email, name, location, phone, password) => {
   const newUser = new User({ email, name, location, phone });
@@ -30,6 +34,7 @@ const updateUser = async (_id, body) => {
 
 module.exports = {
   getUser,
+  getUserById,
   addUser,
   updateToken,
   updateUser,

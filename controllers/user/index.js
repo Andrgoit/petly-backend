@@ -1,4 +1,7 @@
-const { uploadToCloudy, removeFileWithCloudinary } = require("../../helpers");
+const {
+  uploadToCloudinary,
+  removeFileWithCloudinary,
+} = require("../../helpers");
 
 const { addPet, listPets, removePet } = require("../../service/pet");
 const Pet = require("../../models/pets");
@@ -26,7 +29,7 @@ const create = async (req, res, next) => {
   const newPet = new Pet({ name, birthdate, breed, comments, owner });
 
   if (req.file) {
-    const avatar = await uploadToCloudy(
+    const avatar = await uploadToCloudinary(
       req.file,
       mainDir,
       newPet._id,
