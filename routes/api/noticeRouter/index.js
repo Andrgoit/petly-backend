@@ -4,6 +4,7 @@ const router = express.Router();
 const controller = require("../../controller/notice");
 const auth = require("../../middlewares/auth");
 const upload = require("../../middlewares/upload");
+const validateNoticeForm = require("../../../middlewares/validateNoticeForm");   
 
 router.get("/favorites", auth, controller.getUserFavorites);
 
@@ -19,7 +20,7 @@ router.patch("/:id/addfavorite", auth, controller.addUserToFavorite);
 
 router.patch("/:id/removefavorite", auth, controller.removeUserWithFavorite);
 
-router.post("/", auth, upload.single("avatar"), controller.create);
+router.post("/", auth, validateNoticeForm, upload.single("avatar"), controller.create);
 
 // router.delete("/:id", auth, controller.remove);
 
