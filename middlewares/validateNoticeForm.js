@@ -26,6 +26,7 @@ const validateNoticeForm = (req, res, next) => {
       }
       next();
     }
+    throw HttpError(400, "Bad Request. Category is incorrect");
   } catch (error) {
     next(error);
   }
