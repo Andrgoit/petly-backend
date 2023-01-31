@@ -7,22 +7,29 @@ const {
 } = require("../schemas/joiSchemas/joiNoticeForms");
 
 const validateNoticeForm = (req, res, next) => {
-  const { category } = req.params;
-  const noticeForm = req.body;
-  if (category === "sell") {
-    const { error } = joiNoticeFormsSell.validate(noticeForm);
-    if (error) {
-      throw HttpError(400, error.message);
+  try {
+    // category или type???
+    // const { category } = req.query;
+    const { category } = req.params;
+    const noticeForm = req.body;
+    if (category === "sell") {
+      const { error } = joiNoticeFormsSell.validate(noticeForm);
+      if (error) {
+        throw HttpError(400, error.message);
+      }
+      next();
     }
-    next();
-  }
-  if (category === "lostfound" || category === "ingoodhands") {
-    const { error } = joiNoticeForms.validate(noticeForm);
-    if (error) {
-      throw HttpError(400, error.message);
+    if (category === "lostfound" || category === "ingoodhands") {
+      const { error } = joiNoticeForms.validate(noticeForm);
+      if (error) {
+        throw HttpError(400, error.message);
+      }
+      next();
     }
-    next();
+  } catch (error) {
+    next(error);
   }
+ 
 };
 
 module.exports = validateNoticeForm;
