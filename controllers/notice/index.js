@@ -11,6 +11,7 @@ const mainDir = "notices";
 const sizeAvatar = [336, 336];
 
 // повертає список оголошень обраної категорії
+
 const get = async (req, res) => {
   const { categoryName } = req.params;
 
