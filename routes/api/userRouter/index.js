@@ -7,8 +7,7 @@ const controller = require("../../../controllers/user");
 
 const authenticate = require("../../../middlewares/authenticate");
 const upload = require("../../../middlewares/upload");
-const schemas = require("../../../schemas/joiSchemas/petForms");
-const validateBody = require("../../../middlewares/validateBody");
+
 // const {
 //   validateUser,
 //   ValidateSubscription,
@@ -28,7 +27,7 @@ router.get("/current", authenticate, controllerWrappers(controller.get));
 
 router.post(
   "/pets",
-  authenticate, validateBody(schemas.joiPetForms),
+  authenticate,
   upload.single("avatar"),
   controllerWrappers(controller.create)
 );
