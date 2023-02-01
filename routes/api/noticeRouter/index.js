@@ -9,41 +9,42 @@ const upload = require("../../../middlewares/upload");
 
 router.get("/category/:categoryName", controllerWrappers(controller.get));
 
-router.get("/:id", controllerWrappers(controller.getById));
+router.get("/notice/:id", controllerWrappers(controller.getById));
+
+router.delete(
+  "/notice/:id",
+  authenticate,
+  controllerWrappers(controller.remove)
+);
 
 router.post(
-  "/",
+  "/notice",
   authenticate,
   upload.single("avatar"),
   controllerWrappers(controller.create)
 );
 
 router.get(
-  "/favorites",
+  "/favorite",
   authenticate,
   controllerWrappers(controller.getUserFavorites)
 );
-
-router.get("/current", authenticate, controllerWrappers(controller.getCurrent));
-
-router.delete("/:id", authenticate, controllerWrappers(controller.remove));
-
-router.patch(
-  "/:id/addfavorite",
+router.post(
+  "/favorite/:id",
   authenticate,
-  controllerWrappers(controller.addUserToFavorite)
+  controllerWrappers(controller.addNoticeToFavorite)
 );
 
-router.patch(
-  "/:id/removefavorite",
+router.delete(
+  "/favorite/:id",
   authenticate,
-  controllerWrappers(controller.removeUserWithFavorite)
+  controllerWrappers(controller.removeNoticeWithFavorite)
 );
 
-// router.delete("/:id", auth, controller.remove);
-
-// router.put("/:id", auth, controller.update);
-
-// router.patch("/:id/favorite", auth, controller.updateStatusContact);
+router.get(
+  "/current",
+  authenticate,
+  controllerWrappers(controller.getUserNotices)
+);
 
 module.exports = router;

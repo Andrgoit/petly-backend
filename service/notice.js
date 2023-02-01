@@ -1,4 +1,5 @@
 const Notice = require("../models/notice");
+const User = require("../models/user");
 
 const listNoticesByCategory = async (category) => {
   const filterResponse = ["title", "breed", "location", "birthdate", "avatar"];
@@ -8,6 +9,10 @@ const listNoticesByCategory = async (category) => {
   }
 
   return Notice.find({ category }, filterResponse);
+};
+
+const getById = async (_id) => {
+  return Notice.findOne({ _id });
 };
 
 const addNotice = async (body) => {
@@ -22,46 +27,42 @@ const updateNoticeAvatar = async (_id, avatar) => {
   );
 };
 
-const getById = async (_id) => {
-  return Notice.findOne({ _id });
-};
-
 const removeNotice = async (id, userId) => {
   return Notice.findOneAndDelete({ _id: id, owner: userId });
 };
 
-const addToFavoriteList = async (noticeId, userId) => {
-  return Notice.findOneAndUpdate(
-    { _id: noticeId },
-    { $push: { favorite: userId } },
+const addNoticeToFavoriteList = async (_id, noticeId) => {
+  return User.findOneAndUpdate(
+    { _id },
+    { $push: { favorite: noticeId } },
     { returnDocument: "after" }
   );
 };
 
-const removeWithFavoriteList = async (noticeId, userId) => {
-  return Notice.findOneAndUpdate(
-    { _id: noticeId },
-    { $pull: { favorite: userId } },
+const removeWithFavoriteList = async (_id, noticeId) => {
+  return User.findOneAndUpdate(
+    { _id },
+    { $pull: { favorite: noticeId } },
     { returnDocument: "after" }
   );
 };
-
-const listFavoriteNotice = async (userId) => {
-  return Notice.find({ favorite: [userId] }, { favorite: 0, owner: 0 });
+// повертає список оголошень доданих в обрані
+const listUserNoticeFavorites = async (userId) => {
+  return User.findOne(userId, { favorite: 1, _id: 0 });
 };
 
-const listNotices = async (userId) => {
-  return Notice.find({ owner: userId }, { favorite: 0, owner: 0 });
+const listUserNotices = async (userId) => {
+  return Notice.find({ owner: userId }, { owner: 0 });
 };
 
 module.exports = {
   addNotice,
   updateNoticeAvatar,
   listNoticesByCategory,
-  addToFavoriteList,
+  addNoticeToFavoriteList,
   removeWithFavoriteList,
-  listFavoriteNotice,
-  listNotices,
+  listUserNoticeFavorites,
+  listUserNotices,
   removeNotice,
 
   getById,

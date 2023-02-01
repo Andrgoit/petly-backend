@@ -1,7 +1,4 @@
-const path = require("path");
-const fs = require("fs/promises");
-
-const service = require("../../service/notice");
+const serviceNotice = require("../../service/notice");
 const serviceUser = require("../../service/user");
 const {
   uploadToCloudinary,
@@ -13,24 +10,21 @@ const Notice = require("../../models/notice");
 const mainDir = "notices";
 const sizeAvatar = [336, 336];
 
-const avatarDir = path.join(process.cwd(), "public", "notices");
-
+// повертає список оголошень обраної категорії
 const get = async (req, res) => {
   const { categoryName } = req.params;
 
-  const result = await service.listNoticesByCategory(categoryName);
+  const result = await serviceNotice.listNoticesByCategory(categoryName);
 
   res.status(200).json(result);
 };
 
+// повертає оголошення по ID
 const getById = async (req, res) => {
-  const notice = await service.getById(req.params.id);
+  const notice = await serviceNotice.getById(req.params.id);
 
-  console.log(notice);
   if (notice) {
     const user = await serviceUser.getUserById(notice.owner);
-
-    console.log(user);
 
     if (user) {
       return res.status(200).json({ notice, user });
@@ -40,6 +34,7 @@ const getById = async (req, res) => {
   throw HttpError(404, "Not found");
 };
 
+// додає оголошення
 const create = async (req, res) => {
   const owner = req.user._id;
 
@@ -80,77 +75,88 @@ const create = async (req, res) => {
     newNotice.avatar = avatar;
   }
 
-  const result = await service.addNotice(newNotice);
+  const result = await serviceNotice.addNotice(newNotice);
 
   res.status(201).json(result);
 };
 
-// не переробив
-const remove = async (req, res, next) => {
-  const result = await service.removeNotice(req.params.id, req.user._id);
-
-  if (result) {
-    const { avatar } = result;
-
-    if (avatar) {
-      // видалення файлу
-      const fileName = path.basename(avatar);
-      const removePath = path.join(avatarDir, fileName);
-
-      fs.rm(removePath);
-    }
-
-    return res.status(200).json({ message: "contact deleted" });
-  }
-
-  res.status(404).json({ message: "Not found" });
-};
-
-const addUserToFavorite = async (req, res, next) => {
-  const { id } = req.params;
-
-  let result = await service.getById(id);
-
-  if (result) {
-    const { _id } = req.user;
-
-    if (!result.favorite.includes(_id)) {
-      result = await service.addToFavoriteList(id, _id);
-    }
-
-    console.log(result);
-  }
-
-  res.status(404).json({ message: "Not found" });
-};
-
-const removeUserWithFavorite = async (req, res, next) => {
-  const { id } = req.params;
-
-  let result = await service.getById(id);
-
-  if (result) {
-    const { _id } = req.user;
-
-    if (result.favorite.includes(_id)) {
-      result = await service.removeWithFavoriteList(id, _id);
-    }
-
-    console.log(result);
-  }
-
-  res.status(404).json({ message: "Not found" });
-};
-
-const getUserFavorites = async (req, res, next) => {
-  const result = await service.listFavoriteNotice(req.user._id);
+// повертає оголошення авторизованого користувача доданих ним же в обрані
+const getUserFavorites = async (req, res) => {
+  console.log(req.user._id);
+  const result = await serviceNotice.listUserNoticeFavorites(req.user._id);
 
   res.status(200).json(result);
 };
 
-const getCurrent = async (req, res, next) => {
+// додає оголошення до обраних для авторизованого користувача
+const addNoticeToFavorite = async (req, res) => {
+  const { id } = req.params;
+
+  const notice = await serviceNotice.getById(id);
+
+  if (notice) {
+    const { _id, favorite } = req.user;
+
+    if (!favorite.includes(id)) {
+      await serviceNotice.addNoticeToFavoriteList(_id, id);
+
+      return res
+        .status(200)
+        .json({ message: "The notice has been added to favorites" });
+    }
+
+    return res
+      .status(400)
+      .json({ message: "The notice is in the user's favorites list" });
+  }
+
+  res.status(404).json({ message: "Not found" });
+};
+
+// видаляє оголошення із списку обраних для авторизованого користувача, ним же доданим
+const removeNoticeWithFavorite = async (req, res) => {
+  const { id } = req.params;
+
+  const { _id, favorite } = req.user;
+
+  // let result = await serviceNotice.getById(id);
+
+  if (favorite.includes(id)) {
+    await serviceNotice.removeWithFavoriteList(_id, id);
+
+    return res
+      .status(200)
+      .json({ message: "The notice deleted with favorites list" });
+  }
+
+  res.status(404).json({ message: "Not found" });
+};
+// видаляє оголошення авторизованого користувача
+const remove = async (req, res) => {
+  const { id } = req.params;
+
+  const { _id } = req.user;
+
+  const notice = await serviceNotice.getById(id);
+
+  if (notice) {
+    await serviceNotice.removeNotice(id, _id);
+
+    const publicId = notice.avatar.public_id;
+
+    if (publicId) {
+      await removeFileWithCloudinary(publicId);
+    }
+
+    return res.status(200).json({ message: "Notice deleted" });
+  }
+
+  res.status(404).json({ message: "Not found" });
+};
+// повертає список оголошень користувача
+const getUserNotices = async (req, res, next) => {
   try {
-    const result = await service.listNotices(req.user._id);
+    const result = await serviceNotice.listUserNotices(req.user._id);
 
     res.status(200).json(result);
   } catch (error) {
@@ -163,9 +169,8 @@ module.exports = {
   getById,
   create,
   remove,
-
-  addUserToFavorite,
-  removeUserWithFavorite,
+  addNoticeToFavorite,
+  removeNoticeWithFavorite,
   getUserFavorites,
-  getCurrent,
+  getUserNotices,
 };
