@@ -19,7 +19,7 @@ const validateNoticeForm = (req, res, next) => {
     console.log(typeof category);
     if (category === "sell") {
       const { error } = joiNoticeFormsSell.validate(noticeForm);
-      console.log(987654);
+      // console.log(987654);
       if (error) {
         throw HttpError(400, error.message);
       }
@@ -27,21 +27,14 @@ const validateNoticeForm = (req, res, next) => {
     }
     if (category === "lostfound" || category === "ingoodhands") {
       const { error } = joiNoticeForms.validate(noticeForm);
-      console.log("12345");
+      // console.log("12345");
       if (error) {
         throw HttpError(400, error.message);
         //  throw HttpError(400, "321");
       }
       return next();
     }
-    // if (
-    //   category !== "sell" &&
-    //   category !== "lostfound" &&
-    //   category !== "ingoodhands"
-    // ) {
-    //   throw HttpError(400, "Bad Request. Category is incorrect");
-    // }
-    
+   
     throw HttpError(400, "Bad Request. Category is incorrect");
 
   } catch (error) {
