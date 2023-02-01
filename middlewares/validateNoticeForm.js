@@ -8,29 +8,34 @@ const {
 
 const validateNoticeForm = (req, res, next) => {
   try {
-    // category или type???
-    const { category } = req.query;
-    // const { category } = req.params;
     const noticeForm = req.body;
+
+    const category = noticeForm.category;
+
     if (category === "sell") {
       const { error } = joiNoticeFormsSell.validate(noticeForm);
+
       if (error) {
         throw HttpError(400, error.message);
       }
-      next();
+
+      return next();
     }
+
     if (category === "lostfound" || category === "ingoodhands") {
       const { error } = joiNoticeForms.validate(noticeForm);
+
       if (error) {
         throw HttpError(400, error.message);
       }
-      next();
+
+      return next();
     }
+
     throw HttpError(400, "Bad Request. Category is incorrect");
   } catch (error) {
     next(error);
   }
- 
 };
 
 module.exports = validateNoticeForm;
