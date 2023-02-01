@@ -30,6 +30,7 @@ const priceError = new Error(
 );
 
 const joiNoticeForms = Joi.object({
+  category: Joi.string(),
   title: Joi.string().pattern(titleRegExp).error(titleError).required(),
   name: Joi.string().pattern(noticeNameRegExp).error(nameError),
   birthdate: Joi.string().pattern(dataRegExp).error(birthdateError),
@@ -47,6 +48,7 @@ const joiNoticeForms = Joi.object({
 });
 
 const joiNoticeFormsSell = Joi.object({
+  category: Joi.string(),
   title: Joi.string().pattern(titleRegExp).error(titleError).required(),
   name: Joi.string().pattern(noticeNameRegExp).error(nameError),
   birthdate: Joi.string().pattern(dataRegExp).error(birthdateError),
