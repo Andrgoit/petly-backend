@@ -8,22 +8,11 @@ const controller = require("../../../controllers/user");
 const authenticate = require("../../../middlewares/authenticate");
 const upload = require("../../../middlewares/upload");
 
-// const {
-//   validateUser,
-//   ValidateSubscription,
-//   validateEmail,
-// } = require("../../middlewares/validator");
-
-// цей роутер не треба для проекту
-
-// router.get("/", async (req, res) => {
-//   const users = await User.find();
-//   res.status(200).send({ users });
-// });
-
-// *************************8
-
 router.get("/current", authenticate, controllerWrappers(controller.get));
+
+// ****************8
+router.get("/current/Myroslava", controllerWrappers(controller.getId));
+// ****************8
 
 router.post(
   "/pets",
