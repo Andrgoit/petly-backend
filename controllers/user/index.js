@@ -16,17 +16,20 @@ const sizeAvatar = [240, 240];
 const getId = async (req, res, next) => {
   const email = "morov78@ukr.net";
 
-  const user = getUser(email);
-  const { _id, name, location, phone, avatar, birthdate } = await getUser(
-    email
-  );
+  const user = await getUser(email);
+  const { _id } = user;
 
   console.log(user);
 
+  console.log(user.birthdate);
+
   const result = await listPets(_id);
 
+  user.password = "";
+  user.token = null;
+
   res.status(200).json({
-    user: { email, name, location, phone, avatar, birthdate },
+    user,
     pets: result,
   });
 };
