@@ -7,6 +7,7 @@ const controller = require("../../../controllers/notice");
 const authenticate = require("../../../middlewares/authenticate");
 const upload = require("../../../middlewares/upload");
 const validateNoticeForm = require("../../../middlewares/validateNoticeForm");
+const { validateParamsID } = require("../../../middlewares/validateParamsID");
 
 router.get("/category/:categoryName", controllerWrappers(controller.get));
 
@@ -33,12 +34,14 @@ router.get(
 );
 router.post(
   "/favorite/:id",
+  validateParamsID,
   authenticate,
   controllerWrappers(controller.addNoticeToFavorite)
 );
 
 router.delete(
   "/favorite/:id",
+  validateParamsID,
   authenticate,
   controllerWrappers(controller.removeNoticeWithFavorite)
 );
