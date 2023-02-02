@@ -5,6 +5,7 @@ const {
   passwordRegExp,
   nameRegExp,
   locationRegExp,
+  dataRegExp,
   telRegExp,
 } = require("../../service/validation/regExp");
 
@@ -16,8 +17,12 @@ const nameError = new Error("Name not valid. Any letters");
 const locationError = new Error(
   "Location not valid. String in City, Region format."
 );
+
 const phoneError = new Error(
   "Phone not valid. String in format  +380671234567"
+);
+const birthdateError = new Error(
+  "Birthdate not valid. Date in the format dd.mm.yyyy"
 );
 
 const joiRegisterSchema = Joi.object({
@@ -42,7 +47,16 @@ const joiLoginSchema = Joi.object({
     .required(),
 });
 
+const joiUpdateUserSchema = Joi.object({
+  email: Joi.string().pattern(emailRegExp).error(emailError),
+  name: Joi.string().pattern(nameRegExp).error(nameError),
+  birthdate: Joi.string().pattern(dataRegExp).error(birthdateError),
+  phone: Joi.string().pattern(telRegExp).error(phoneError),
+  location: Joi.string().pattern(locationRegExp).error(locationError),
+});
+
 module.exports = {
   joiRegisterSchema,
   joiLoginSchema,
+  joiUpdateUserSchema,
 };

@@ -27,6 +27,7 @@ router.post("/logout", authenticate, controllerWrappers(controller.logout));
 router.put(
   "/update",
   authenticate,
+  validateBody(schemas.joiUpdateUserSchema),
   upload.single("avatar"),
   controllerWrappers(controller.update)
 );
