@@ -1,6 +1,6 @@
 const cloudinary = require("cloudinary").v2;
 // const path = require("path");
-// const fs = require("fs/promises");
+const fs = require("fs/promises");
 const Jimp = require("jimp");
 
 cloudinary.config({
@@ -32,10 +32,12 @@ const uploadToCloudinary = async (file, uploadDir, fileName, size) => {
       public_id: filePathOnCloudinary,
     });
 
+    console.log(tempUpload);
     return { url: result.url, public_id: result.public_id };
   } catch (error) {
-    // fs.unlinkSync(tempUpload);
     console.log(error);
+  } finally {
+    await fs.unlink(tempUpload);
   }
 };
 

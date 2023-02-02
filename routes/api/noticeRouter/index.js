@@ -22,8 +22,9 @@ router.delete(
 router.post(
   "/notice",
   authenticate,
-  validateNoticeForm,
   upload.single("avatar"),
+  validateNoticeForm,
+
   controllerWrappers(controller.create)
 );
 
