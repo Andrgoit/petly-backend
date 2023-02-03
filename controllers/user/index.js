@@ -5,11 +5,35 @@ const {
 
 const { addPet, listPets, removePet } = require("../../service/pet");
 const Pet = require("../../models/pets");
+const { getUser } = require("../../service/user");
 
 // const avatarDir = path.join(process.cwd(), "public", "pets");
 
 const mainDir = "pets";
 const sizeAvatar = [240, 240];
+
+// для тестування
+const getId = async (req, res, next) => {
+  const email = "morov78@ukr.net";
+
+  const user = await getUser(email);
+  const { _id } = user;
+
+  console.log(user);
+
+  console.log(user.birthdate);
+
+  const result = await listPets(_id);
+
+  user.password = "";
+  user.token = null;
+
+  res.status(200).json({
+    user,
+    pets: result,
+  });
+};
+// 88888888888888888888888888888
 
 const get = async (req, res, next) => {
   const { _id, email, name, location, phone, avatar, birthdate } = req.user;
@@ -62,4 +86,4 @@ const remove = async (req, res, next) => {
   res.status(404).json({ message: "Pet not found" });
 };
 
-module.exports = { get, create, remove };
+module.exports = { getId, get, create, remove };
