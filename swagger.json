@@ -26,6 +26,10 @@
     {
       "name": "auth",
       "description": "Autorization endpoints"
+    },
+    {
+      "name": "notices",
+      "description": "Notice's endpoints"
     }
   ],
   "paths": {
@@ -37,46 +41,17 @@
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
-          "description": "Registration's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/registrationRequest"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/Register"
         },
         "responses": {
           "201": {
-            "description": "User created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/registrationResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/201-CreatedUser"
           },
           "400": {
-            "description": "Bad request (invalid request body)",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/400-Error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400-BadRequest"
           },
           "409": {
-            "description": "Email in use",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/409-RegisterError"
-                }
-              }
-            }
+            "$ref": "#/components/responses/409-RegisterError"
           }
         }
       }
@@ -89,40 +64,17 @@
         "summary": "User login",
         "parameters": [],
         "requestBody": {
-          "description": "Login's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginRequest"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/Login"
         },
         "responses": {
           "200": {
-            "description": "A token for the user is returned",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/200-Login"
           },
           "400": {
-            "description": "Bad request (invalid request body)",
-            "content": {}
+            "$ref": "#/components/responses/400-BadRequest"
           },
           "409": {
-            "description": "Email or password is wrong",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/409-LoginError"
-                }
-              }
-            }
+            "$ref": "#/components/responses/409-LoginError"
           }
         }
       }
@@ -145,14 +97,7 @@
             "content": {}
           },
           "401": {
-            "description": "Not authorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/401-Error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/401-NotAutorized"
           }
         }
       }
@@ -170,50 +115,52 @@
           }
         ],
         "requestBody": {
-          "description": "Registration's object",
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/updateRequest"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/UpdateUser"
         },
         "responses": {
           "200": {
-            "description": "Returns updated user data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/updateResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/200-Update"
           },
           "400": {
-            "description": "Треба ще добавити (Validation Error)",
-            "content": {}
+            "$ref": "#/components/responses/400-BadRequest"
           },
           "401": {
-            "description": "Not authorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/401-Error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/401-NotAutorized"
           },
           "409": {
-            "description": "Email in use",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/409-RegisterError"
-                }
-              }
-            }
+            "$ref": "#/components/responses/409-ChangeUserError"
+          }
+        }
+      }
+    },
+    "/notices/category/{categoryName}": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Робота з оголошеннями",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryName",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "sell",
+                "lostfound",
+                "ingoodhands"
+              ]
+            },
+            "required": true,
+            "description": "One category with ['sell','ingoodhands','lostfound']"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-GetNotices"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
           }
         }
       }
@@ -221,162 +168,116 @@
   },
   "components": {
     "schemas": {
-      "registrationRequest": {
+      "RegisterBody": {
+        "type": "object",
         "required": [
           "email",
           "password"
         ],
-        "type": "object",
         "properties": {
           "email": {
             "type": "string",
             "format": "email",
-            "description": "user's email",
-            "example": "user@example.com"
+            "description": "user's email"
           },
           "password": {
             "type": "string",
-            "description": "user's password",
-            "example": "password1234"
+            "description": "user's password"
           },
           "name": {
             "type": "string",
-            "description": "user's name",
-            "example": "User"
+            "description": "user's name"
           },
           "location": {
             "type": "string",
-            "description": "user's location",
-            "example": "Kyiv, Kyiv"
+            "description": "user's location"
           },
           "phone": {
             "type": "string",
-            "description": "user's phone",
-            "example": "+380981234567"
+            "description": "user's phone"
           }
         }
       },
-      "registrationResponse": {
+      "UserCreatedBody": {
         "type": "object",
         "properties": {
           "email": {
             "type": "string",
             "format": "email",
-            "description": "user's email",
-            "example": "user@example.com"
+            "description": "user's email"
           },
           "name": {
             "type": "string",
-            "description": "user's name",
-            "example": "User"
+            "description": "user's name"
           },
           "location": {
             "type": "string",
-            "description": "user's location",
-            "example": "Kyiv, Kyiv"
+            "description": "user's location"
           },
           "phone": {
             "type": "string",
-            "description": "user's phone",
-            "example": "+380981234567"
+            "description": "user's phone"
           }
         }
       },
-      "loginRequest": {
+      "LoginBody": {
         "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
             "format": "email",
-            "description": "user's email",
-            "example": "user@example.com"
+            "description": "user's email"
           },
           "password": {
             "type": "string",
-            "description": "user's password",
-            "example": "password1234"
+            "description": "user's password"
           }
         }
       },
-      "loginResponse": {
+      "UserLoginedBody": {
         "type": "object",
         "properties": {
           "token": {
             "type": "string",
             "format": "JWT",
-            "description": "user's token",
+            "description": "User's token",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2Q5OGQ0ZWM1NzQ3ZjVjNDg0YjVlMSIsImlhdCI6MTY3NDQxODcyOCwiZXhwIjoxNjc0NDIyMzI4fQ.qmrt-kGVp-uJrhmBUt7NKLfBIhjGO7KvJC9KmX6Ujc8"
           }
         }
       },
-      "401-Error": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "example": "Not authorized"
-          }
-        }
-      },
-      "400-Error": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "example": "Validation error"
-          }
-        }
-      },
-      "409-RegisterError": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "example": "Email in use"
-          }
-        }
-      },
-      "409-LoginError": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "example": "Email or password is wrong"
-          }
-        }
-      },
-      "updateRequest": {
+      "UpdateUserBody": {
         "type": "object",
         "properties": {
           "email": {
             "type": "string",
             "format": "email",
             "description": "user's email",
-            "example": [
-              "user@example.com",
-              "user2@example.com"
-            ]
+            "example": "marta@gmail.com"
           },
           "name": {
             "type": "string",
             "description": "user's name",
-            "example": "User"
+            "example": "marta"
           },
           "location": {
             "type": "string",
             "description": "user's location",
-            "example": "Kyiv, Kyiv"
+            "example": "Kovel, Lutsk"
           },
           "phone": {
             "type": "string",
             "description": "user's phone",
-            "example": "+380981234567"
+            "example": "380631234321"
           },
           "birthdate": {
             "type": "string",
             "format": "date",
             "description": "User's birthdate",
-            "example": "2000-04-29T00:00:00.000Z"
+            "example": "09-17-2002"
           },
           "avatar": {
             "type": "string",
@@ -385,41 +286,319 @@
           }
         }
       },
-      "updateResponse": {
+      "User": {
         "type": "object",
         "properties": {
           "email": {
             "type": "string",
             "format": "email",
-            "description": "user's email",
-            "example": "user@example.com"
+            "description": "user's email"
+          },
+          "password": {
+            "type": "string",
+            "description": "user's password"
           },
           "name": {
             "type": "string",
-            "description": "user's name",
-            "example": "User"
+            "description": "user's name"
           },
           "location": {
             "type": "string",
-            "description": "user's location",
-            "example": "Kyiv, Kyiv"
+            "description": "user's location"
           },
           "phone": {
             "type": "string",
-            "description": "user's phone",
-            "example": "+380981234567"
-          },
-          "birthdate": {
-            "type": "string",
-            "format": "date",
-            "description": "User's birthdate",
-            "example": "29-04-2000"
+            "description": "user's phone"
           },
           "avatar": {
             "type": "string",
-            "description": "user's photo url",
-            "example": "users\\63d0e44bcef6ec0c774d22e0.jpg"
+            "format": "binary",
+            "description": "User's photo"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "User's birthdate"
           }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      }
+    },
+    "requestBodies": {
+      "Register": {
+        "description": "Registration user's object",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RegisterBody"
+            },
+            "examples": {
+              "user": {
+                "$ref": "#/components/examples/user"
+              },
+              "vasya": {
+                "$ref": "#/components/examples/vasya"
+              }
+            }
+          }
+        }
+      },
+      "Login": {
+        "description": "Login user's object",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/LoginBody"
+            },
+            "examples": {
+              "user": {
+                "value": {
+                  "email": "user@gmail.com",
+                  "password": "user1234"
+                }
+              },
+              "vasya": {
+                "value": {
+                  "email": "vasya@gmail.com",
+                  "password": "password1234"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UpdateUser": {
+        "description": "Registration's object",
+        "required": true,
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateUserBody"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "201-CreatedUser": {
+        "description": "User Created",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UserCreatedBody"
+            },
+            "examples": {
+              "user": {
+                "$ref": "#/components/examples/user"
+              },
+              "vasya": {
+                "$ref": "#/components/examples/vasya"
+              }
+            }
+          }
+        }
+      },
+      "200-Login": {
+        "description": "A token for the user is returned",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UserLoginedBody"
+            }
+          }
+        }
+      },
+      "200-Update": {
+        "description": "Returns updated user data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateUserBody"
+            },
+            "examples": {
+              "updateUser": {
+                "$ref": "#/components/examples/UpdateUser"
+              }
+            }
+          }
+        }
+      },
+      "200-GetNotices": {
+        "description": "Returns a list of ads for the selected category",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "object",
+                    "properties": {
+                      "public_id": {
+                        "type": "string",
+                        "description": "public ID on Cloudinary",
+                        "example": "notices/63d9c87277ab211223ccd24d.png"
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "Url to file on Cloudinary",
+                        "example": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+                      }
+                    }
+                  },
+                  "_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Notice's id",
+                    "example": "63d9c87277ab211223ccd24d"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "The name of the message",
+                    "example": "Сute dog looking for a home,"
+                  },
+                  "birthdate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Pet's birthday",
+                    "example": "8-22-2021"
+                  },
+                  "breed": {
+                    "type": "string",
+                    "description": "Type breed of pet",
+                    "example": "Border Terrier"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "location (city, region)",
+                    "example": "Lviv,Lviv"
+                  },
+                  "price": {
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Sale price of the pet"
+                      },
+                      {
+                        "type": "integer",
+                        "nullable": true,
+                        "description": "No price for category: \"ingoodhands\" and \"lostfound\""
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "400-BadRequest": {
+        "description": "Bad request. Validation error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Any validation error"
+            }
+          }
+        }
+      },
+      "401-NotAutorized": {
+        "description": "User not authorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Not authorized"
+            }
+          }
+        }
+      },
+      "409-RegisterError": {
+        "description": "User not created",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Email in use"
+            }
+          }
+        }
+      },
+      "409-LoginError": {
+        "description": "Error login",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Email or password is wrong"
+            }
+          }
+        }
+      },
+      "409-ChangeUserError": {
+        "description": "Changing the user's mail to an already existing one",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Email in use"
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "user": {
+        "value": {
+          "email": "user@gmail.com",
+          "password": "user1234",
+          "name": "user",
+          "location": "Kyiv, Kyiv",
+          "phone": "+380981234567"
+        }
+      },
+      "vasya": {
+        "value": {
+          "email": "vasya@gmail.com",
+          "password": "password1234",
+          "name": "vasya",
+          "location": "Brovary, Kyiv",
+          "phone": "+380661734547"
+        }
+      },
+      "UpdateUser": {
+        "value": {
+          "email": "marta@gmail.com",
+          "name": "marta",
+          "location": "Kovel, Lutsk",
+          "phone": "+380631234321",
+          "birthdate": "09-17-2002",
+          "avatar": "users\\63d0e44bcef6ec0c774d22e0.jpg"
         }
       }
     },
