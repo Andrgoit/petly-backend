@@ -15,6 +15,7 @@ router.get("/notice/:id", controllerWrappers(controller.getById));
 
 router.delete(
   "/notice/:id",
+  validateParamsID,
   authenticate,
   controllerWrappers(controller.remove)
 );
