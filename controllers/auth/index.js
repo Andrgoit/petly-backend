@@ -18,12 +18,14 @@ const registration = async (req, res) => {
 
   const newUser = await service.addUser(email, name, location, phone, password);
 
-  res.status(201).json({
-    email,
-    name: newUser.name,
-    location: newUser.location,
-    phone: newUser.phone,
-  });
+  res.redirect(307, "/api/auth/login");
+
+  // res.status(201).json({
+  //   email,
+  //   name: newUser.name,
+  //   location: newUser.location,
+  //   phone: newUser.phone,
+  // });
 };
 
 const login = async (req, res) => {
