@@ -16,7 +16,9 @@ const registration = async (req, res) => {
     throw HttpError(409, "Email in use");
   }
 
-  const newUser = await service.addUser(email, name, location, phone, password);
+  await service.addUser(email, name, location, phone, password);
+
+  res.redirect(307, "/api/auth/login");
 
   // res.status(201).json({
   //   email,
@@ -24,8 +26,6 @@ const registration = async (req, res) => {
   //   location: newUser.location,
   //   phone: newUser.phone,
   // });
-
-  res.redirect(307, "/api/auth/login");
 };
 
 const login = async (req, res) => {
