@@ -21,7 +21,7 @@ const noticeSchema = new Schema(
     },
     birthdate: {
       type: Date,
-      transform: (v) => (v === null ? null : v.toLocaleDateString()),
+      // transform: (v) => (v === null ? null : v.toLocaleDateString()),
       default: null,
     },
     breed: {
