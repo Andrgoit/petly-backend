@@ -21,9 +21,7 @@ const locationError = new Error(
 const phoneError = new Error(
   "Phone not valid. String in format  +380671234567"
 );
-const birthdateError = new Error(
-  "Birthdate not valid. Date in the format dd.mm.yyyy"
-);
+const birthdateError = new Error("Birthdate not valid. Date in the ISO format");
 
 const joiRegisterSchema = Joi.object({
   email: Joi.string().pattern(emailRegExp).error(emailError).required(),
@@ -46,9 +44,7 @@ const joiLoginSchema = Joi.object({
     .error(passwordError)
     .required(),
   name: Joi.string().pattern(nameRegExp).error(nameError),
-  location: Joi.string()
-    .pattern(locationRegExp)
-    .error(locationError),
+  location: Joi.string().pattern(locationRegExp).error(locationError),
   phone: Joi.string().pattern(telRegExp).error(phoneError),
 });
 
