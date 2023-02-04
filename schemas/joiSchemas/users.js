@@ -45,6 +45,11 @@ const joiLoginSchema = Joi.object({
     .pattern(passwordRegExp)
     .error(passwordError)
     .required(),
+  name: Joi.string().pattern(nameRegExp).error(nameError),
+  location: Joi.string()
+    .pattern(locationRegExp)
+    .error(locationError),
+  phone: Joi.string().pattern(telRegExp).error(phoneError),
 });
 
 const joiUpdateUserSchema = Joi.object({
