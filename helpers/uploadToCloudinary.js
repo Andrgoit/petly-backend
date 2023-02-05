@@ -32,7 +32,6 @@ const uploadToCloudinary = async (file, uploadDir, fileName, size) => {
       public_id: filePathOnCloudinary,
     });
 
-    console.log(tempUpload);
     return { url: result.url, public_id: result.public_id };
   } catch (error) {
     console.log(error);
