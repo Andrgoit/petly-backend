@@ -138,7 +138,7 @@
         "tags": [
           "notices"
         ],
-        "summary": "Робота з оголошеннями",
+        "summary": "Робота з оголошеннями (Не дороблено)",
         "parameters": [
           {
             "in": "path",
@@ -170,7 +170,7 @@
         "tags": [
           "notices"
         ],
-        "summary": "Повертає одне оголошення",
+        "summary": "Return notice by id",
         "parameters": [
           {
             "in": "path",
@@ -186,6 +186,34 @@
         "responses": {
           "200": {
             "$ref": "#/components/responses/200-NoticeById"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequestBadId"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFoundGetNoticeById"
+          }
+        }
+      }
+    },
+    "/notices/notice": {
+      "post": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Creates an notice for an authorized user",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/NoticeCreate"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-NoticeCreated"
           }
         }
       }
@@ -351,14 +379,180 @@
         "type": "object",
         "properties": {
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Any validation error"
           }
         },
         "required": [
           "message"
         ]
       },
+      "ResponseNoticeById": {
+        "type": "object",
+        "properties": {
+          "notice": {
+            "type": "object",
+            "properties": {
+              "avatar": {
+                "type": "object",
+                "properties": {
+                  "public_id": {
+                    "type": "string",
+                    "description": "public ID on Cloudinary"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "Url to file on Cloudinary"
+                  }
+                }
+              },
+              "_id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Notice's id"
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "sell",
+                  "lostfound",
+                  "ingoodhands"
+                ]
+              },
+              "title": {
+                "type": "string",
+                "description": "The name of the notice"
+              },
+              "name": {
+                "type": "string",
+                "description": "the name of the animal"
+              },
+              "sex": {
+                "type": "string",
+                "description": "The sex of the animal",
+                "enum": [
+                  "male",
+                  "female"
+                ]
+              },
+              "birthdate": {
+                "type": "string",
+                "format": "date",
+                "description": "Pet's birthday"
+              },
+              "breed": {
+                "type": "string",
+                "description": "Type breed of pet"
+              },
+              "location": {
+                "type": "string",
+                "description": "location (city, region)"
+              },
+              "price": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Sale price of the pet"
+                  },
+                  {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "No price for category: \"ingoodhands\" and \"lostfound\""
+                  }
+                ]
+              },
+              "comments": {
+                "type": "string",
+                "description": "Коментарі до оголошення"
+              },
+              "owner": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Id of the user who created the notice"
+              }
+            }
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "User's email"
+              },
+              "phone": {
+                "type": "string",
+                "description": "User's phone"
+              }
+            }
+          }
+        }
+      },
       "NoticeBody": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "sell",
+              "lostfound",
+              "ingoodhands"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "description": "The name of the message"
+          },
+          "name": {
+            "type": "string",
+            "description": null
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date",
+            "description": "Pet's birthday"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Type breed of pet"
+          },
+          "location": {
+            "type": "string",
+            "description": "location (city, region)"
+          },
+          "price": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Sale price of the pet"
+              },
+              {
+                "type": "integer",
+                "nullable": true,
+                "description": "No price for category: \"ingoodhands\" and \"lostfound\""
+              }
+            ]
+          },
+          "comments": {
+            "type": "string",
+            "description": null
+          }
+        }
+      },
+      "CreatedNoticeBody": {
         "type": "object",
         "properties": {
           "avatar": {
@@ -397,7 +591,7 @@
           },
           "name": {
             "type": "string",
-            "description": null
+            "description": "null"
           },
           "sex": {
             "type": "string",
@@ -438,7 +632,12 @@
           },
           "comments": {
             "type": "string",
-            "description": null
+            "description": "null"
+          },
+          "owner": {
+            "type": "string",
+            "format": "uuid",
+            "example": null
           }
         }
       }
@@ -498,6 +697,31 @@
             }
           }
         }
+      },
+      "NoticeCreate": {
+        "description": "Notice's object",
+        "required": true,
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "$ref": "#/components/schemas/NoticeBody"
+            },
+            "example": {
+              "value": {
+                "avatar": null,
+                "category": "sell",
+                "title": "Сute dog looking for a home",
+                "name": "Rich",
+                "sex": "female",
+                "birthdate": "2021-09-20T21:00:00.000Z",
+                "breed": "Border Terrier",
+                "location": "Lviv,Lviv",
+                "price": 350,
+                "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet"
+              }
+            }
+          }
+        }
       }
     },
     "responses": {
@@ -544,113 +768,53 @@
           }
         }
       },
-      "200-GetNotices": {
-        "description": "Returns a list of ads for the selected category",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "avatar": {
-                    "type": "object",
-                    "properties": {
-                      "public_id": {
-                        "type": "string",
-                        "description": "public ID on Cloudinary",
-                        "example": "notices/63d9c87277ab211223ccd24d.png"
-                      },
-                      "url": {
-                        "type": "string",
-                        "description": "Url to file on Cloudinary",
-                        "example": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
-                      }
-                    }
-                  },
-                  "_id": {
-                    "type": "string",
-                    "format": "uuid",
-                    "description": "Notice's id",
-                    "example": "63d9c87277ab211223ccd24d"
-                  },
-                  "title": {
-                    "type": "string",
-                    "description": "The name of the message",
-                    "example": "Сute dog looking for a home,"
-                  },
-                  "birthdate": {
-                    "type": "string",
-                    "format": "date",
-                    "description": "Pet's birthday",
-                    "example": "8-22-2021"
-                  },
-                  "breed": {
-                    "type": "string",
-                    "description": "Type breed of pet",
-                    "example": "Border Terrier"
-                  },
-                  "location": {
-                    "type": "string",
-                    "description": "location (city, region)",
-                    "example": "Lviv,Lviv"
-                  },
-                  "price": {
-                    "oneOf": [
-                      {
-                        "type": "integer",
-                        "minimum": 1,
-                        "description": "Sale price of the pet"
-                      },
-                      {
-                        "type": "integer",
-                        "nullable": true,
-                        "description": "No price for category: \"ingoodhands\" and \"lostfound\""
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
       "200-NoticeById": {
         "description": "Returns notice by id",
         "content": {
           "application/json": {
             "schema": {
-              "type": "object",
-              "properties": {
-                "notice": {
-                  "$ref": "#/components/schemas/NoticeBody"
-                },
-                "user": {
-                  "$ref": "#/components/schemas/User"
-                }
+              "$ref": "#/components/schemas/ResponseNoticeById"
+            },
+            "examples": {
+              "Category 'Sell'": {
+                "$ref": "#/components/examples/NoticeBySellCategory"
               },
+              "Category 'lostfound'": {
+                "$ref": "#/components/examples/NoticeByLostfoundCategory"
+              },
+              "Category 'ingoodhands'": {
+                "$ref": "#/components/examples/NoticeByIngoodhandsCategory"
+              }
+            }
+          }
+        }
+      },
+      "200-NoticeCreated": {
+        "description": "Return created notice",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreatedNoticeBody",
               "example": {
-                "notice": {
-                  "avatar": {
-                    "public_id": "notices/63d9c87277ab211223ccd24d.png",
-                    "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
-                  },
-                  "_id": "63d9c87277ab211223ccd24d",
-                  "category": "sell",
-                  "title": "Сute dog looking for a home",
-                  "name": "Rich",
-                  "birthdate": "Дата",
-                  "breed": "Pomeranian",
-                  "sex": "male",
-                  "location": null,
-                  "price": 150,
-                  "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet",
-                  "owner": "63d839a21f3fce6f49c6a2c7"
+                "avatar": {
+                  "public_id": "notices/63d9c87277ab211223ccd24d.png",
+                  "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
                 },
-                "user": {
-                  "email": "morov78@ukr.net",
-                  "phone": "+380984383242"
-                }
+                "_id": "63d9c87277ab211223ccd24d",
+                "category": [
+                  "sell",
+                  "ingoodhands",
+                  "lostfound"
+                ],
+                "title": "Сute dog looking for a home",
+                "name": "Rich",
+                "sex": "female",
+                "birthdate": "2021-09-20T21:00:00.000Z",
+                "breed": "Border Terrier",
+                "location": "Lviv,Lviv",
+                "price": 350,
+                "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet",
+                "owner": "63df647b3a21961fd722c3c5"
               }
             }
           }
@@ -662,9 +826,19 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "400-BadRequestBadId": {
+        "description": "Bad request. Invalid id",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
             },
             "example": {
-              "message": "Any validation error"
+              "message": "Invalid id"
             }
           }
         }
@@ -677,7 +851,20 @@
               "$ref": "#/components/schemas/Error"
             },
             "example": {
-              "message": "Not authorized"
+              "message": "Not"
+            }
+          }
+        }
+      },
+      "404-NotFoundGetNoticeById": {
+        "description": "Not find notice with this id",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Not found"
             }
           }
         }
@@ -749,6 +936,106 @@
           "phone": "+380631234321",
           "birthdate": "09-17-2002",
           "avatar": "users\\63d0e44bcef6ec0c774d22e0.jpg"
+        }
+      },
+      "NoticeSellCategory": {
+        "value": {
+          "avatar": {
+            "public_id": "notices/63d9c87277ab211223ccd24d.png",
+            "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+          },
+          "_id": "63d9c87277ab211223ccd24d",
+          "title": "Сute dog looking for a home",
+          "birthdate": "8-22-2021",
+          "breed": "Border Terrier",
+          "location": "Lviv, Lviv",
+          "price": 150
+        }
+      },
+      "NoticeNoSellCategory": {
+        "value": {
+          "avatar": {
+            "public_id": "notices/63d9c87277ab211223ccd24d.png",
+            "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+          },
+          "_id": "63d9c87277ab211223ccd24d",
+          "title": "Сute dog looking for a home",
+          "birthdate": "8-22-2021",
+          "breed": "Border Terrier",
+          "location": "Lviv, Lviv"
+        }
+      },
+      "NoticeBySellCategory": {
+        "value": {
+          "notice": {
+            "avatar": {
+              "public_id": "notices/63d9c87277ab211223ccd24d.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+            },
+            "_id": "63d9c87277ab211223ccd24d",
+            "category": "sell",
+            "title": "Сute dog looking for a home",
+            "name": "Rich",
+            "birthdate": "2020-09-21T00:00:00.000Z",
+            "breed": "Pomeranian",
+            "sex": "male",
+            "location": "Lviv, Lviv",
+            "price": 150,
+            "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sitamet",
+            "owner": "63d839a21f3fce6f49c6a2c7"
+          },
+          "user": {
+            "email": "vasya321@ukr.net",
+            "phone": "+380952183123"
+          }
+        }
+      },
+      "NoticeByLostfoundCategory": {
+        "value": {
+          "notice": {
+            "avatar": {
+              "public_id": "notices/63d9c87277ab211223ccd24d.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+            },
+            "_id": "63d9c87277ab211223ccd24d",
+            "category": "lostfound",
+            "title": "Сute dog looking for a home",
+            "name": "Rich",
+            "birthdate": "2020-09-21T00:00:00.000Z",
+            "breed": "Pomeranian",
+            "sex": "male",
+            "location": "Lviv, Lviv",
+            "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sitamet",
+            "owner": "63d839a21f3fce6f49c6a2c7"
+          },
+          "user": {
+            "email": "starpetya78@gmail.com",
+            "phone": "+380931234567"
+          }
+        }
+      },
+      "NoticeByIngoodhandsCategory": {
+        "value": {
+          "notice": {
+            "avatar": {
+              "public_id": "notices/63d9c87277ab211223ccd24d.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+            },
+            "_id": "63d9c87277ab211223ccd24d",
+            "category": "ingoodhands",
+            "title": "Сute dog looking for a home",
+            "name": "Rich",
+            "birthdate": "2020-09-21T00:00:00.000Z",
+            "breed": "Pomeranian",
+            "sex": "male",
+            "location": "Lviv, Lviv",
+            "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sitamet",
+            "owner": "63d839a21f3fce6f49c6a2c7"
+          },
+          "user": {
+            "email": "starpetya78@gmail.com",
+            "phone": "+380931234567"
+          }
         }
       }
     },
