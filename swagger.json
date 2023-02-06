@@ -138,11 +138,7 @@
         "tags": [
           "notices"
         ],
-<<<<<<< HEAD
-        "summary": "Робота з оголошеннями",
-=======
         "summary": "Робота з оголошеннями (Не дороблено)",
->>>>>>> 33862a2c72aa25719afaf8233631f560424a26ea
         "parameters": [
           {
             "in": "path",
@@ -165,8 +161,6 @@
           },
           "400": {
             "$ref": "#/components/responses/400-BadRequest"
-<<<<<<< HEAD
-=======
           }
         }
       }
@@ -218,9 +212,14 @@
           "$ref": "#/components/requestBodies/NoticeCreate"
         },
         "responses": {
-          "200": {
-            "$ref": "#/components/responses/200-NoticeCreated"
->>>>>>> 33862a2c72aa25719afaf8233631f560424a26ea
+          "201": {
+            "$ref": "#/components/responses/201-NoticeCreated"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401-NotAutorized"
           }
         }
       }
@@ -369,8 +368,6 @@
           "phone": {
             "type": "string",
             "description": "user's phone"
-<<<<<<< HEAD
-=======
           },
           "avatar": {
             "type": "string",
@@ -511,45 +508,42 @@
               "sell",
               "lostfound",
               "ingoodhands"
-            ]
+            ],
+            "example": "sell"
           },
           "title": {
             "type": "string",
-            "description": "The name of the message"
+            "description": "The name of the message",
+            "example": "Сute dog looking for a home"
           },
           "name": {
             "type": "string",
-            "description": null
+            "description": null,
+            "example": "Rich"
           },
           "sex": {
             "type": "string",
             "enum": [
               "male",
               "female"
-            ]
+            ],
+            "example": "male"
           },
           "birthdate": {
             "type": "string",
             "format": "date",
-            "description": "Pet's birthday"
->>>>>>> 33862a2c72aa25719afaf8233631f560424a26ea
+            "description": "Pet's birthday",
+            "example": "2021-09-20T21:00:00.000Z"
           },
           "breed": {
             "type": "string",
-<<<<<<< HEAD
-            "format": "binary",
-            "description": "User's photo"
-          },
-          "birthdate": {
-            "type": "string",
-            "format": "date-time",
-            "description": "User's birthdate"
-=======
-            "description": "Type breed of pet"
+            "description": "Type breed of pet",
+            "example": "Border Terrier"
           },
           "location": {
             "type": "string",
-            "description": "location (city, region)"
+            "description": "location (city, region)",
+            "example": "Lviv,Lviv"
           },
           "price": {
             "oneOf": [
@@ -563,11 +557,16 @@
                 "nullable": true,
                 "description": "No price for category: \"ingoodhands\" and \"lostfound\""
               }
+            ],
+            "example": [
+              350,
+              null
             ]
           },
           "comments": {
             "type": "string",
-            "description": null
+            "description": null,
+            "example": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet"
           }
         }
       },
@@ -610,14 +609,16 @@
           },
           "name": {
             "type": "string",
-            "description": "null"
+            "description": "null",
+            "example": "Rich"
           },
           "sex": {
             "type": "string",
             "enum": [
               "male",
               "female"
-            ]
+            ],
+            "example": "male"
           },
           "birthdate": {
             "type": "string",
@@ -647,16 +648,18 @@
                 "nullable": true,
                 "description": "No price for category: \"ingoodhands\" and \"lostfound\""
               }
-            ]
+            ],
+            "example": 350
           },
           "comments": {
             "type": "string",
-            "description": "null"
+            "description": "null",
+            "example": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet"
           },
           "owner": {
             "type": "string",
             "format": "uuid",
-            "example": null
+            "example": "63df647b3a21961fd722c3c5"
           }
         }
       }
@@ -724,20 +727,6 @@
           "multipart/form-data": {
             "schema": {
               "$ref": "#/components/schemas/NoticeBody"
-            },
-            "example": {
-              "value": {
-                "avatar": null,
-                "category": "sell",
-                "title": "Сute dog looking for a home",
-                "name": "Rich",
-                "sex": "female",
-                "birthdate": "2021-09-20T21:00:00.000Z",
-                "breed": "Border Terrier",
-                "location": "Lviv,Lviv",
-                "price": 350,
-                "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet"
-              }
             }
           }
         }
@@ -808,33 +797,12 @@
           }
         }
       },
-      "200-NoticeCreated": {
+      "201-NoticeCreated": {
         "description": "Return created notice",
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/CreatedNoticeBody",
-              "example": {
-                "avatar": {
-                  "public_id": "notices/63d9c87277ab211223ccd24d.png",
-                  "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
-                },
-                "_id": "63d9c87277ab211223ccd24d",
-                "category": [
-                  "sell",
-                  "ingoodhands",
-                  "lostfound"
-                ],
-                "title": "Сute dog looking for a home",
-                "name": "Rich",
-                "sex": "female",
-                "birthdate": "2021-09-20T21:00:00.000Z",
-                "breed": "Border Terrier",
-                "location": "Lviv,Lviv",
-                "price": 350,
-                "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet",
-                "owner": "63df647b3a21961fd722c3c5"
-              }
+              "$ref": "#/components/schemas/CreatedNoticeBody"
             }
           }
         }
@@ -1054,287 +1022,7 @@
           "user": {
             "email": "starpetya78@gmail.com",
             "phone": "+380931234567"
->>>>>>> 33862a2c72aa25719afaf8233631f560424a26ea
           }
-        }
-      },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "message"
-        ]
-      }
-    },
-    "requestBodies": {
-      "Register": {
-        "description": "Registration user's object",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/RegisterBody"
-            },
-            "examples": {
-              "user": {
-                "$ref": "#/components/examples/user"
-              },
-              "vasya": {
-                "$ref": "#/components/examples/vasya"
-              }
-            }
-          }
-        }
-      },
-      "Login": {
-        "description": "Login user's object",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/LoginBody"
-            },
-            "examples": {
-              "user": {
-                "value": {
-                  "email": "user@gmail.com",
-                  "password": "user1234"
-                }
-              },
-              "vasya": {
-                "value": {
-                  "email": "vasya@gmail.com",
-                  "password": "password1234"
-                }
-              }
-            }
-          }
-        }
-      },
-      "UpdateUser": {
-        "description": "Registration's object",
-        "required": true,
-        "content": {
-          "multipart/form-data": {
-            "schema": {
-              "$ref": "#/components/schemas/UpdateUserBody"
-            }
-          }
-        }
-      }
-    },
-    "responses": {
-      "201-CreatedUser": {
-        "description": "User Created",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/UserCreatedBody"
-            },
-            "examples": {
-              "user": {
-                "$ref": "#/components/examples/user"
-              },
-              "vasya": {
-                "$ref": "#/components/examples/vasya"
-              }
-            }
-          }
-        }
-      },
-      "200-Login": {
-        "description": "A token for the user is returned",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/UserLoginedBody"
-            }
-          }
-        }
-      },
-      "200-Update": {
-        "description": "Returns updated user data",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/UpdateUserBody"
-            },
-            "examples": {
-              "updateUser": {
-                "$ref": "#/components/examples/UpdateUser"
-              }
-            }
-          }
-        }
-      },
-      "200-GetNotices": {
-        "description": "Returns a list of ads for the selected category",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "avatar": {
-                    "type": "object",
-                    "properties": {
-                      "public_id": {
-                        "type": "string",
-                        "description": "public ID on Cloudinary",
-                        "example": "notices/63d9c87277ab211223ccd24d.png"
-                      },
-                      "url": {
-                        "type": "string",
-                        "description": "Url to file on Cloudinary",
-                        "example": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
-                      }
-                    }
-                  },
-                  "_id": {
-                    "type": "string",
-                    "format": "uuid",
-                    "description": "Notice's id",
-                    "example": "63d9c87277ab211223ccd24d"
-                  },
-                  "title": {
-                    "type": "string",
-                    "description": "The name of the message",
-                    "example": "Сute dog looking for a home,"
-                  },
-                  "birthdate": {
-                    "type": "string",
-                    "format": "date",
-                    "description": "Pet's birthday",
-                    "example": "8-22-2021"
-                  },
-                  "breed": {
-                    "type": "string",
-                    "description": "Type breed of pet",
-                    "example": "Border Terrier"
-                  },
-                  "location": {
-                    "type": "string",
-                    "description": "location (city, region)",
-                    "example": "Lviv,Lviv"
-                  },
-                  "price": {
-                    "oneOf": [
-                      {
-                        "type": "integer",
-                        "minimum": 1,
-                        "description": "Sale price of the pet"
-                      },
-                      {
-                        "type": "integer",
-                        "nullable": true,
-                        "description": "No price for category: \"ingoodhands\" and \"lostfound\""
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "400-BadRequest": {
-        "description": "Bad request. Validation error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            },
-            "example": {
-              "message": "Any validation error"
-            }
-          }
-        }
-      },
-      "401-NotAutorized": {
-        "description": "User not authorized",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            },
-            "example": {
-              "message": "Not authorized"
-            }
-          }
-        }
-      },
-      "409-RegisterError": {
-        "description": "User not created",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            },
-            "example": {
-              "message": "Email in use"
-            }
-          }
-        }
-      },
-      "409-LoginError": {
-        "description": "Error login",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            },
-            "example": {
-              "message": "Email or password is wrong"
-            }
-          }
-        }
-      },
-      "409-ChangeUserError": {
-        "description": "Changing the user's mail to an already existing one",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            },
-            "example": {
-              "message": "Email in use"
-            }
-          }
-        }
-      }
-    },
-    "examples": {
-      "user": {
-        "value": {
-          "email": "user@gmail.com",
-          "password": "user1234",
-          "name": "user",
-          "location": "Kyiv, Kyiv",
-          "phone": "+380981234567"
-        }
-      },
-      "vasya": {
-        "value": {
-          "email": "vasya@gmail.com",
-          "password": "password1234",
-          "name": "vasya",
-          "location": "Brovary, Kyiv",
-          "phone": "+380661734547"
-        }
-      },
-      "UpdateUser": {
-        "value": {
-          "email": "marta@gmail.com",
-          "name": "marta",
-          "location": "Kovel, Lutsk",
-          "phone": "+380631234321",
-          "birthdate": "09-17-2002",
-          "avatar": "users\\63d0e44bcef6ec0c774d22e0.jpg"
         }
       }
     },
