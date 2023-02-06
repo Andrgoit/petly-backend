@@ -9,13 +9,14 @@ const listNoticesByCategory = async (category) => {
     "birthdate",
     "avatar",
     "category",
+    "owner",
   ];
 
   if (category === "sell") {
     filterResponse.push("price");
   }
 
-  return Notice.find({ category }, filterResponse);
+  return Notice.find({ category }, filterResponse).sort({ _id: -1 });
 };
 
 const getById = async (_id) => {
@@ -34,8 +35,8 @@ const updateNoticeAvatar = async (_id, avatar) => {
   );
 };
 
-const removeNotice = async (id, userId) => {
-  return Notice.findOneAndDelete({ _id: id, owner: userId });
+const removeNotice = async (_id, userId) => {
+  return Notice.findOneAndDelete({ _id, owner: userId });
 };
 
 const addNoticeToFavoriteList = async (_id, noticeId) => {
