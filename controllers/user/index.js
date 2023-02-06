@@ -35,11 +35,11 @@ const get = async (req, res, next) => {
   const { _id, email, name, location, phone, avatar, birthdate, favorite } =
     req.user;
 
-  const result = await listPets(_id);
+  const pets = await listPets(_id);
 
   res.status(200).json({
-    user: { email, name, location, phone, avatar, birthdate, favorite },
-    pets: result,
+    user: { email, name, location, phone, avatar, birthdate, favorite, pets },
+    // pets: result,
   });
 };
 
