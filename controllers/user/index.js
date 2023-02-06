@@ -38,7 +38,17 @@ const get = async (req, res, next) => {
   const pets = await listPets(_id);
 
   res.status(200).json({
-    user: { email, name, location, phone, avatar, birthdate, favorite, pets },
+    user: {
+      _id,
+      email,
+      name,
+      location,
+      phone,
+      avatar,
+      birthdate,
+      favorite,
+      pets,
+    },
     // pets: result,
   });
 };

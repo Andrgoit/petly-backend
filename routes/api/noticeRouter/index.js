@@ -11,7 +11,11 @@ const { validateParamsID } = require("../../../middlewares/validateParamsID");
 
 router.get("/category/:categoryName", controllerWrappers(controller.get));
 
-router.get("/notice/:id",validateParamsID, controllerWrappers(controller.getById));
+router.get(
+  "/notice/:id",
+  validateParamsID,
+  controllerWrappers(controller.getById)
+);
 
 router.delete(
   "/notice/:id",
