@@ -19,10 +19,6 @@ const getId = async (req, res, next) => {
   const user = await getUser(email);
   const { _id } = user;
 
-  console.log(user);
-
-  console.log(user.birthdate);
-
   const result = await listPets(_id);
 
   user.password = "";
@@ -36,12 +32,13 @@ const getId = async (req, res, next) => {
 // 88888888888888888888888888888
 
 const get = async (req, res, next) => {
-  const { _id, email, name, location, phone, avatar, birthdate } = req.user;
+  const { _id, email, name, location, phone, avatar, birthdate, favorite } =
+    req.user;
 
   const result = await listPets(_id);
 
   res.status(200).json({
-    user: { email, name, location, phone, avatar, birthdate },
+    user: { email, name, location, phone, avatar, birthdate, favorite },
     pets: result,
   });
 };
