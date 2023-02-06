@@ -212,8 +212,14 @@
           "$ref": "#/components/requestBodies/NoticeCreate"
         },
         "responses": {
-          "200": {
-            "$ref": "#/components/responses/200-NoticeCreated"
+          "201": {
+            "$ref": "#/components/responses/201-NoticeCreated"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401-NotAutorized"
           }
         }
       }
@@ -502,35 +508,42 @@
               "sell",
               "lostfound",
               "ingoodhands"
-            ]
+            ],
+            "example": "sell"
           },
           "title": {
             "type": "string",
-            "description": "The name of the message"
+            "description": "The name of the message",
+            "example": "Сute dog looking for a home"
           },
           "name": {
             "type": "string",
-            "description": null
+            "description": null,
+            "example": "Rich"
           },
           "sex": {
             "type": "string",
             "enum": [
               "male",
               "female"
-            ]
+            ],
+            "example": "male"
           },
           "birthdate": {
             "type": "string",
             "format": "date",
-            "description": "Pet's birthday"
+            "description": "Pet's birthday",
+            "example": "2021-09-20T21:00:00.000Z"
           },
           "breed": {
             "type": "string",
-            "description": "Type breed of pet"
+            "description": "Type breed of pet",
+            "example": "Border Terrier"
           },
           "location": {
             "type": "string",
-            "description": "location (city, region)"
+            "description": "location (city, region)",
+            "example": "Lviv,Lviv"
           },
           "price": {
             "oneOf": [
@@ -544,11 +557,16 @@
                 "nullable": true,
                 "description": "No price for category: \"ingoodhands\" and \"lostfound\""
               }
+            ],
+            "example": [
+              350,
+              null
             ]
           },
           "comments": {
             "type": "string",
-            "description": null
+            "description": null,
+            "example": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet"
           }
         }
       },
@@ -591,14 +609,16 @@
           },
           "name": {
             "type": "string",
-            "description": "null"
+            "description": "null",
+            "example": "Rich"
           },
           "sex": {
             "type": "string",
             "enum": [
               "male",
               "female"
-            ]
+            ],
+            "example": "male"
           },
           "birthdate": {
             "type": "string",
@@ -628,16 +648,18 @@
                 "nullable": true,
                 "description": "No price for category: \"ingoodhands\" and \"lostfound\""
               }
-            ]
+            ],
+            "example": 350
           },
           "comments": {
             "type": "string",
-            "description": "null"
+            "description": "null",
+            "example": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet"
           },
           "owner": {
             "type": "string",
             "format": "uuid",
-            "example": null
+            "example": "63df647b3a21961fd722c3c5"
           }
         }
       }
@@ -705,20 +727,6 @@
           "multipart/form-data": {
             "schema": {
               "$ref": "#/components/schemas/NoticeBody"
-            },
-            "example": {
-              "value": {
-                "avatar": null,
-                "category": "sell",
-                "title": "Сute dog looking for a home",
-                "name": "Rich",
-                "sex": "female",
-                "birthdate": "2021-09-20T21:00:00.000Z",
-                "breed": "Border Terrier",
-                "location": "Lviv,Lviv",
-                "price": 350,
-                "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet"
-              }
             }
           }
         }
@@ -789,33 +797,12 @@
           }
         }
       },
-      "200-NoticeCreated": {
+      "201-NoticeCreated": {
         "description": "Return created notice",
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/CreatedNoticeBody",
-              "example": {
-                "avatar": {
-                  "public_id": "notices/63d9c87277ab211223ccd24d.png",
-                  "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
-                },
-                "_id": "63d9c87277ab211223ccd24d",
-                "category": [
-                  "sell",
-                  "ingoodhands",
-                  "lostfound"
-                ],
-                "title": "Сute dog looking for a home",
-                "name": "Rich",
-                "sex": "female",
-                "birthdate": "2021-09-20T21:00:00.000Z",
-                "breed": "Border Terrier",
-                "location": "Lviv,Lviv",
-                "price": 350,
-                "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet",
-                "owner": "63df647b3a21961fd722c3c5"
-              }
+              "$ref": "#/components/schemas/CreatedNoticeBody"
             }
           }
         }
