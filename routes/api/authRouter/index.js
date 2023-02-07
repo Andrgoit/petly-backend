@@ -14,13 +14,13 @@ router.post(
   "/register",
   validateBody(schemas.joiRegisterSchema),
   controllerWrappers(controller.registration)
-); // validateUser
+); 
 
 router.post(
   "/login",
   validateBody(schemas.joiLoginSchema),
   controllerWrappers(controller.login)
-); // validateUser//
+); 
 
 router.post("/logout", authenticate, controllerWrappers(controller.logout));
 
@@ -29,7 +29,6 @@ router.put(
   authenticate,
   upload.single("avatar"),
   validateBody(schemas.joiUpdateUserSchema),
-  // upload.single("avatar"),
   controllerWrappers(controller.update)
 );
 
