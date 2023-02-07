@@ -32,7 +32,7 @@
       "description": "Notice's endpoints"
     },
     {
-      "name": "user",
+      "name": "users",
       "description": "User's endpoints"
     }
   ],
@@ -263,7 +263,20 @@
           }
         }
     }
-
+    },
+    "user/pets":{
+      "post": {
+        "tags": ["users"],
+        "summary": "Add pets",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody":{
+          
+        }
+      }
     }
   },
   "components": {
