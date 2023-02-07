@@ -22,8 +22,8 @@ router.get("/current/Myroslava", controllerWrappers(controller.getId));
 router.post(
   "/pets",
   authenticate,
-  validateBody(schemas.joiPetForms),
   upload.single("avatar"),
+  validateBody(schemas.joiPetForms),
   controllerWrappers(controller.create)
 );
 

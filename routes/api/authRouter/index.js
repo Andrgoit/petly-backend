@@ -29,6 +29,7 @@ router.put(
   authenticate,
   upload.single("avatar"),
   validateBody(schemas.joiUpdateUserSchema),
+  // upload.single("avatar"),
   controllerWrappers(controller.update)
 );
 
