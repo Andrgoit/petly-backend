@@ -22,11 +22,16 @@ router.get("/current/Myroslava", controllerWrappers(controller.getId));
 router.post(
   "/pets",
   authenticate,
-  validateBody(schemas.joiPetForms),
   upload.single("avatar"),
+  validateBody(schemas.joiPetForms),
   controllerWrappers(controller.create)
 );
 
-router.delete("/pets/:id",validateParamsID, authenticate, controllerWrappers(controller.remove));
+router.delete(
+  "/pets/:id",
+  authenticate,
+  validateParamsID,
+  controllerWrappers(controller.remove)
+);
 
 module.exports = router;
