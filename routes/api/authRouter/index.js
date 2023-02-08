@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const passport = require("../../../middlewares/passport");
+// const authGoogle = require("./controller/authGoogle");
+
 const { controllerWrappers } = require("../../../helpers");
 const controller = require("../../../controllers/auth");
 
@@ -9,6 +12,24 @@ const upload = require("../../../middlewares/upload");
 
 const validateBody = require("../../../middlewares/validateBody");
 const schemas = require("../../../schemas/joiSchemas/users");
+
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["email", "profile"] }) // authgoogle
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/google/failure",
+  }),
+  controllerWrappers(controller.authGoogle)
+);
+
+router.get("/google/failure", (req, res) => {
+  res.status(404).send({ message: "something went wrong..." });
+});
 
 router.post(
   "/register",

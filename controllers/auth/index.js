@@ -1,11 +1,28 @@
 // const updateAvatar = require("../../middlewares/updateAvatar");
 const createToken = require("../../helpers/createToken");
 const service = require("../../service/user");
+const User = require("../../models/user");
 
 const { uploadToCloudinary, HttpError } = require("../../helpers");
 
 const mainDir = "users";
 const sizeAvatar = [233, 233];
+
+const authGoogle = async (req, res, next) => {
+  try {
+    const { _id } = req.user;
+
+    const token = createToken(_id);
+
+    await service.updateToken(_id, token);
+
+    res.redirect(
+      `${process.env.FRONTEND_URL}/petly-team-project/google-redirect/${token}`
+    );
+  } catch (error) {
+    next(error);
+  }
+};
 
 const registration = async (req, res) => {
   const { email, password, name, location, phone } = req.body;
@@ -91,4 +108,5 @@ module.exports = {
   login,
   logout,
   update,
+  authGoogle,
 };
