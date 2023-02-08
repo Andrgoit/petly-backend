@@ -35,13 +35,13 @@ router.post(
   "/register",
   validateBody(schemas.joiRegisterSchema),
   controllerWrappers(controller.registration)
-); // validateUser
+); 
 
 router.post(
   "/login",
   validateBody(schemas.joiLoginSchema),
   controllerWrappers(controller.login)
-); // validateUser//
+); 
 
 router.post("/logout", authenticate, controllerWrappers(controller.logout));
 
