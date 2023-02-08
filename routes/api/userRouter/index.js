@@ -27,6 +27,11 @@ router.post(
   controllerWrappers(controller.create)
 );
 
-router.delete("/pets/:id",validateParamsID, authenticate, controllerWrappers(controller.remove));
+router.delete(
+  "/pets/:id",
+  authenticate,
+  validateParamsID,
+  controllerWrappers(controller.remove)
+);
 
 module.exports = router;
