@@ -82,7 +82,6 @@ const create = async (req, res) => {
 
 // повертає оголошення авторизованого користувача доданих ним же в обрані
 const getUserFavorites = async (req, res) => {
-  console.log(req.user._id);
   const result = await serviceNotice.listUserNoticeFavorites(req.user._id);
 
   res.status(200).json(result);
@@ -155,13 +154,9 @@ const remove = async (req, res) => {
 };
 // повертає список оголошень користувача
 const getUserNotices = async (req, res, next) => {
-  try {
-    const result = await serviceNotice.listUserNotices(req.user._id);
+  const result = await serviceNotice.listUserNotices(req.user._id);
 
-    res.status(200).json(result);
-  } catch (error) {
-    next(error);
-  }
+  res.status(200).json(result);
 };
 
 module.exports = {
