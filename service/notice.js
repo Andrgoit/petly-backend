@@ -1,17 +1,17 @@
 const Notice = require("../models/notice");
 const User = require("../models/user");
 
-const listNoticesByCategory = async (category) => {
-  const filterResponse = [
-    "title",
-    "breed",
-    "location",
-    "birthdate",
-    "avatar",
-    "category",
-    "owner",
-  ];
+const filterResponse = [
+  "title",
+  "breed",
+  "location",
+  "birthdate",
+  "avatar",
+  "category",
+  "owner",
+];
 
+const listNoticesByCategory = async (category) => {
   if (category === "sell") {
     filterResponse.push("price");
   }
@@ -56,11 +56,19 @@ const removeWithFavoriteList = async (_id, noticeId) => {
 };
 // повертає список оголошень доданих в обрані
 const listUserNoticeFavorites = async (userId) => {
-  return User.findOne(userId, { favorite: 1, _id: 0 });
+  const { favorite } = await User.findById(userId);
+  const notices = await Notice.find({ _id: favorite }, filterResponse).sort({
+    _id: -1,
+  });
+
+  return notices;
+  // return User.findOne(userId, { favorite: 1, _id: 0 });
 };
 
 const listUserNotices = async (userId) => {
-  return Notice.find({ owner: userId }, { owner: 0 });
+  return Notice.find({ owner: userId }, filterResponse).sort({
+    _id: -1,
+  });
 };
 
 module.exports = {
