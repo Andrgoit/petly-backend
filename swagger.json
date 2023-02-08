@@ -365,7 +365,6 @@
         ],
         "summary": "Get friends",
         "parameters": [],
-        "requestBody": {},
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -378,8 +377,37 @@
             }
           },
           "404": {
-            "description": "Not found",
-            "content": {}
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": "message: Server error"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news": {
+      "get": {
+        "tags": ["news"],
+        "summary": "Get news",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsRes"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
           },
           "500": {
             "description": "Server error",
@@ -894,10 +922,10 @@
         "type": "object",
         "properties": {
           "avatar": {
-            "type":"object",
+            "type": "object",
             "example": {
-            "public_id": "pets/63e3664dfa566cd6471ca07c.png",
-            "url": "http://res.cloudinary.com/petlydata/image/upload/v1675847247/pets/63e3664dfa566cd6471ca07c.png.png"
+              "public_id": "pets/63e3664dfa566cd6471ca07c.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675847247/pets/63e3664dfa566cd6471ca07c.png.png"
             }
           },
           "name": {
@@ -926,7 +954,7 @@
           }
         }
       },
-      "FriendsRes":{
+      "FriendsRes": {
         "type": "array",
         "items": {
           "type": "object",
@@ -956,7 +984,7 @@
             },
             "adress": {
               "type": "string",
-              "example":"Grigorenka Street, 25"
+              "example": "Grigorenka Street, 25"
             },
             "phone": {
               "type": "string",
@@ -965,6 +993,34 @@
             "email": {
               "type": "string",
               "example": "barbos@gmail.com"
+            }
+          }
+        }
+      },
+      "NewsRes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "63cf3c787f33391be8d304d1"
+            },
+            "title": {
+              "type": "string",
+              "example": "Обережно, кліщі! Як уберегти улюбленця"
+            },
+            "text": {
+              "type": "string",
+              "example": "Травневі прогулянки з улюбленцем не лише приємні, але й потребують пильності."
+            },
+            "data": {
+              "type": "string",
+              "example": "2021-02-20"
+            },
+            "url": {
+              "type": "string",
+              "example": "https://www.kmlvm.com.ua/oberezhno-klishhi-yak-uberegty-ulyublentsya-vid-nepryyemnostej/"
             }
           }
         }
@@ -1151,6 +1207,19 @@
       },
       "404-NotFoundGetNoticeById": {
         "description": "Not find notice with this id",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Not found"
+            }
+          }
+        }
+      },
+      "404-NotFound": {
+        "description": "Not found",
         "content": {
           "application/json": {
             "schema": {
