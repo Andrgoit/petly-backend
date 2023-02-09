@@ -2086,84 +2086,85 @@
             "phone": "+380931234567"
           }
         }
+      },
+      "NoticeCreatedSellCategory": {
+        "value": {
+          "avatar": {
+            "public_id": "notices/63d9c87277ab211223ccd24d.png",
+            "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+          },
+          "_id": "63d9c87277ab211223ccd24d",
+          "category": "sell",
+          "title": "Сute dog looking for a home",
+          "name": "Rich",
+          "birthdate": "2020-09-21T00:00:00.000Z",
+          "breed": "Pomeranian",
+          "sex": "male",
+          "location": "Lviv, Lviv",
+          "price": 150,
+          "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sitamet",
+          "owner": "63d839a21f3fce6f49c6a2c7"
+        }
+      },
+      "NoticeCreatedLostfoundCategory": {
+        "value": {
+          "avatar": {
+            "public_id": "notices/63d9c87277ab211223ccd24d.png",
+            "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+          },
+          "_id": "63d9c87277ab211223ccd24d",
+          "category": "lostfound",
+          "title": "Сute dog looking for a home",
+          "name": "Rich",
+          "birthdate": "2020-09-21T00:00:00.000Z",
+          "breed": "Pomeranian",
+          "sex": "male",
+          "location": "Lviv, Lviv",
+          "price": null,
+          "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sitamet",
+          "owner": "63d839a21f3fce6f49c6a2c7"
+        }
+      },
+      "NoticeCreatedIngoodhandsCategory": {
+        "value": {
+          "avatar": {
+            "public_id": "notices/63d9c87277ab211223ccd24d.png",
+            "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+          },
+          "_id": "63d9c87277ab211223ccd24d",
+          "category": "ingoodhands",
+          "title": "Сute dog looking for a home",
+          "name": "Rich",
+          "birthdate": "2020-09-21T00:00:00.000Z",
+          "breed": "Pomeranian",
+          "sex": "male",
+          "location": "Lviv, Lviv",
+          "price": null,
+          "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sitamet",
+          "owner": "63d839a21f3fce6f49c6a2c7"
+        }
+      },
+      "NoticeSellUser": {
+        "description": "notice with category = sell",
+        "value": {
+          "avatar": {
+            "public_id": "notices/63d9c88177ab211223ccd259.png",
+            "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217026/notices/63d9c88177ab211223ccd259.png.png"
+          },
+          "_id": "63d9c88177ab211223ccd259",
+          "category": "ingoodhands",
+          "title": "Сute cat looking for a home",
+          "name": "Mimi",
+          "birthdate": "2021-09-21T00:00:00.000Z",
+          "breed": "Burmese",
+          "sex": "female",
+          "location": "Lviv, Lviv",
+          "price": null,
+          "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet, consectetur"
+        }
       }
     },
-    "NoticeCreatedSellCategory": {
-      "value": {
-        "avatar": {
-          "public_id": "notices/63d9c87277ab211223ccd24d.png",
-          "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
-        },
-        "_id": "63d9c87277ab211223ccd24d",
-        "category": "sell",
-        "title": "Сute dog looking for a home",
-        "name": "Rich",
-        "birthdate": "2020-09-21T00:00:00.000Z",
-        "breed": "Pomeranian",
-        "sex": "male",
-        "location": "Lviv, Lviv",
-        "price": 150,
-        "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sitamet",
-        "owner": "63d839a21f3fce6f49c6a2c7"
-      }
-    },
-    "NoticeCreatedLostfoundCategory": {
-      "value": {
-        "avatar": {
-          "public_id": "notices/63d9c87277ab211223ccd24d.png",
-          "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
-        },
-        "_id": "63d9c87277ab211223ccd24d",
-        "category": "lostfound",
-        "title": "Сute dog looking for a home",
-        "name": "Rich",
-        "birthdate": "2020-09-21T00:00:00.000Z",
-        "breed": "Pomeranian",
-        "sex": "male",
-        "location": "Lviv, Lviv",
-        "price": null,
-        "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sitamet",
-        "owner": "63d839a21f3fce6f49c6a2c7"
-      }
-    },
-    "NoticeCreatedIngoodhandsCategory": {
-      "value": {
-        "avatar": {
-          "public_id": "notices/63d9c87277ab211223ccd24d.png",
-          "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
-        },
-        "_id": "63d9c87277ab211223ccd24d",
-        "category": "ingoodhands",
-        "title": "Сute dog looking for a home",
-        "name": "Rich",
-        "birthdate": "2020-09-21T00:00:00.000Z",
-        "breed": "Pomeranian",
-        "sex": "male",
-        "location": "Lviv, Lviv",
-        "price": null,
-        "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sitamet",
-        "owner": "63d839a21f3fce6f49c6a2c7"
-      }
-    },
-    "NoticeSellUser": {
-      "description": "notice with category = sell",
-      "value": {
-        "avatar": {
-          "public_id": "notices/63d9c88177ab211223ccd259.png",
-          "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217026/notices/63d9c88177ab211223ccd259.png.png"
-        },
-        "_id": "63d9c88177ab211223ccd259",
-        "category": "ingoodhands",
-        "title": "Сute cat looking for a home",
-        "name": "Mimi",
-        "birthdate": "2021-09-21T00:00:00.000Z",
-        "breed": "Burmese",
-        "sex": "female",
-        "location": "Lviv, Lviv",
-        "price": null,
-        "comments": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet, consectetur"
-      }
-    },
+    
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
