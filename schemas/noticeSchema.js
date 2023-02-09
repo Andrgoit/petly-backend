@@ -21,7 +21,6 @@ const noticeSchema = new Schema(
     },
     birthdate: {
       type: Date,
-      // transform: (v) => (v === null ? null : v.toLocaleDateString()),
       default: null,
     },
     breed: {
@@ -42,8 +41,6 @@ const noticeSchema = new Schema(
     price: {
       type: Number,
       default: null,
-      // min: [1, "Price must be greater than 0"],
-      // required: [true, "price is required"],
     },
     avatar: {
       public_id: { type: String, default: null },

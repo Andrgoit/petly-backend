@@ -20,7 +20,6 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.json());
 app.use(cors());
 app.use(logger(formatsLogger));
-// app.use(express.static("public"));
 
 app.use("/api/auth", authRouter);
 app.use("/api", serviceRouter);

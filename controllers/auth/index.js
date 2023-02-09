@@ -1,4 +1,3 @@
-// const updateAvatar = require("../../middlewares/updateAvatar");
 const createToken = require("../../helpers/createToken");
 const service = require("../../service/user");
 
@@ -20,12 +19,6 @@ const registration = async (req, res) => {
 
   res.redirect(307, "/api/auth/login");
 
-  // res.status(201).json({
-  //   email,
-  //   name: newUser.name,
-  //   location: newUser.location,
-  //   phone: newUser.phone,
-  // });
 };
 
 const login = async (req, res) => {

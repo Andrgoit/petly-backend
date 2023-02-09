@@ -62,7 +62,6 @@ const listUserNoticeFavorites = async (userId) => {
   });
 
   return notices;
-  // return User.findOne(userId, { favorite: 1, _id: 0 });
 };
 
 const listUserNotices = async (userId) => {
@@ -80,6 +79,5 @@ module.exports = {
   listUserNoticeFavorites,
   listUserNotices,
   removeNotice,
-
   getById,
 };
