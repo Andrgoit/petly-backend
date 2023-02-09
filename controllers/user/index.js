@@ -7,12 +7,9 @@ const { addPet, listPets, removePet } = require("../../service/pet");
 const Pet = require("../../models/pets");
 const { getUser } = require("../../service/user");
 
-// const avatarDir = path.join(process.cwd(), "public", "pets");
-
 const mainDir = "pets";
 const sizeAvatar = [240, 240];
 
-// для тестування
 const getId = async (req, res, next) => {
   const email = "morov78@ukr.net";
 
@@ -29,7 +26,6 @@ const getId = async (req, res, next) => {
     pets: result,
   });
 };
-// 88888888888888888888888888888
 
 const get = async (req, res, next) => {
   const { _id, email, name, location, phone, avatar, birthdate, favorite } =
@@ -49,7 +45,6 @@ const get = async (req, res, next) => {
       favorite,
       pets,
     },
-    // pets: result,
   });
 };
 
