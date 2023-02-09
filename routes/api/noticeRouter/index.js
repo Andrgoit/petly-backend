@@ -29,7 +29,6 @@ router.post(
   authenticate,
   upload.single("avatar"),
   validateNoticeForm,
-
   controllerWrappers(controller.create)
 );
 
