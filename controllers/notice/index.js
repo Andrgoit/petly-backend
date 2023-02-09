@@ -117,20 +117,29 @@ const addNoticeToFavorite = async (req, res) => {
 const removeNoticeWithFavorite = async (req, res) => {
   const { id } = req.params;
 
-  const { _id, favorite } = req.user;
+  const notice = await serviceNotice.getById(id);
 
-  // let result = await serviceNotice.getById(id);
+  console.log(notice);
 
-  if (favorite.includes(id)) {
-    await serviceNotice.removeWithFavoriteList(_id, id);
+  if (notice) {
+    const { _id, favorite } = req.user;
 
-    return res
-      .status(200)
-      .json({ message: "The notice deleted with favorites list" });
+    if (favorite.includes(id)) {
+      await serviceNotice.removeWithFavoriteList(_id, id);
+
+      return res
+        .status(200)
+        .json({ message: "The notice deleted with favorites list" });
+    }
+    return res.status(400).json({
+      message: "The notice is not in the favorite list authorize user",
+    });
   }
 
+  console.log("test");
   res.status(404).json({ message: "Not found" });
 };
+
 // видаляє оголошення авторизованого користувача
 const remove = async (req, res) => {
   const { id } = req.params;
