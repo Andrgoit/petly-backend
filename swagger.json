@@ -42,6 +42,10 @@
     {
       "name": "news",
       "description": "News endpoints"
+    },
+    {
+      "name": "pets",
+      "description": "Pets endpoints"
     }
 
   ],
@@ -528,9 +532,9 @@
         }
       }
     },
-    "/users/pets": {
+    "/pets": {
       "post": {
-        "tags": ["users"],
+        "tags": ["pets"],
         "summary": "Add pets",
         "security": [
           {
@@ -577,10 +581,10 @@
         }
       }
     },
-    "/users/pets/{id}": {
+    "/pets/{id}": {
       "delete": {
-        "tags": ["users"],
-        "summary": "Add pets",
+        "tags": ["pets"],
+        "summary": "Delete pets",
         "parameters": [
           {
             "name": "id",
