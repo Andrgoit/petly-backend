@@ -1393,6 +1393,95 @@
           }
         }
       },
+      "NewNoticeBody": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "object",
+            "properties": {
+              "public_id": {
+                "type": "string",
+                "description": "public ID on Cloudinary",
+                "example": "notices/63d9c87277ab211223ccd24d.png"
+              },
+              "url": {
+                "type": "string",
+                "description": "Url to file on Cloudinary",
+                "example": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+              }
+            }
+          },
+          "_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Notice's id",
+            "example": "63d9c87277ab211223ccd24d"
+          },
+          "category": {
+            "type": "string",
+            "description": "Notice's category",
+            "enum": ["sell", "lostfound", "ingoodhands"],
+            "example": "sell"
+          },
+          "title": {
+            "type": "string",
+            "description": "Notice's title",
+            "example": "Сute dog looking for a home,"
+          },
+          "name": {
+            "type": "string",
+            "description": "null",
+            "example": "Rich"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date",
+            "description": "Pet's birthday",
+            "example": "8-22-2021"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Pet's breed",
+            "example": "Border Terrier"
+          },
+          "sex": {
+            "type": "string",
+            "enum": ["male", "female"],
+            "example": "male"
+          },
+          "location": {
+            "type": "string",
+            "description": "location (city, region)",
+            "example": "Lviv,Lviv"
+          },
+          "price": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Sale price of the pet"
+              },
+              {
+                "type": "integer",
+                "nullable": true,
+                "description": "No price for category: \"ingoodhands\" and \"lostfound\""
+              }
+            ],
+            "example": 350
+          },
+          "comments": {
+            "type": "string",
+            "description": "Notice's comments",
+            "example": "Lorem ipsum dolor sit amet, consectetur Lorem ipsumcolor sit amet"
+          },
+          "owner": {
+            "type": "string",
+            "format": "uuid",
+            "description": "User's identificator",
+            "example": "63e4094da8d79b62be09b05a"
+          }
+        }
+      },
       "NoticesCurrentUser": {
         "type": "array",
         "items": {
