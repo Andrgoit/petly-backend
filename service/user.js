@@ -1,6 +1,6 @@
 const User = require("../models/user");
 
-// +
+
 const getUser = async (email) => {
   return await User.findOne({ email });
 };
@@ -8,7 +8,7 @@ const getUser = async (email) => {
 const getUserById = async (id) => {
   return await User.findOne(id, { email: 1, phone: 1, _id: 0 });
 };
-// +
+
 const addUser = async (email, name, location, phone, password) => {
   const newUser = new User({ email, name, location, phone });
 
@@ -16,7 +16,7 @@ const addUser = async (email, name, location, phone, password) => {
 
   return await newUser.save();
 };
-// +
+
 const updateToken = async (id, token = null) => {
   return await User.findByIdAndUpdate(
     id,

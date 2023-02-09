@@ -27,9 +27,6 @@ const priceError = new Error(
   "Price not valid. A number that must not start with 0"
 );
 
-// const birthdateError = new Error(
-//   "Birthdate not valid. Date in the format dd.mm.yyyy"
-// );
 
 const joiNoticeForms = Joi.object({
   category: Joi.string(),
@@ -38,7 +35,6 @@ const joiNoticeForms = Joi.object({
   birthdate: Joi.string().pattern(dataRegExp).error(birthdateError),
   breed: Joi.string().pattern(noticeBreedRegExp).error(breedError),
   location: Joi.string().pattern(locationRegExp).error(locationError),
-  // price: Joi.number().pattern(noticePriceRegExp),
   comments: Joi.string()
     .pattern(commentsRegExp)
     .error(commentsError)

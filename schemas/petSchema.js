@@ -7,7 +7,6 @@ const petSchema = new Schema(
       minLength: 2,
       maxLength: 16,
       default: null,
-      // required: [true, "Name is required"],
     },
     birthdate: {
       type: Date,
@@ -38,6 +37,5 @@ const petSchema = new Schema(
   { versionKey: false }
 );
 
-// const Pet = model("pet", pet);
 
 module.exports = petSchema;

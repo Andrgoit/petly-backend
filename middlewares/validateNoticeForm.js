@@ -1,6 +1,5 @@
 const { HttpError } = require("../helpers");
 
-// импортируем схему  валидации
 const {
   joiNoticeForms,
   joiNoticeFormsSell,
