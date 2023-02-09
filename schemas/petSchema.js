@@ -25,8 +25,8 @@ const petSchema = new Schema(
     },
     comments: {
       type: String,
-      minLength: 2,
-      maxLength: 24,
+      minLength: 8,
+      maxLength: 120,
       default: null,
     },
     owner: {

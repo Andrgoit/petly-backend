@@ -51,7 +51,7 @@ const noticeSchema = new Schema(
     },
     comments: {
       type: String,
-      minLength: 2,
+      minLength: 8,
       maxLength: 120,
       required: [true, "Comments is required"],
     },
