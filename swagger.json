@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "petly-backend docsI",
+    "title": "petly-backend docs",
     "description": "This is a simple API",
     "contact": {
       "email": "you@your-company.com"
@@ -1047,7 +1047,7 @@
             "type": "string",
             "format": "date",
             "description": "Pet's birthday",
-            "example": "8-22-2021"
+            "example": "2021-09-21T00:00:00.000Z"
           },
           "breed": {
             "type": "string",
@@ -1128,7 +1128,7 @@
             "type": "string",
             "format": "date",
             "description": "Pet's birthday",
-            "example": "8-22-2021"
+            "example": "2021-09-21T00:00:00.000Z"
           },
           "breed": {
             "type": "string",
@@ -1249,7 +1249,7 @@
             "type": "string",
             "format": "date",
             "description": "Pet's birthday",
-            "example": "8-22-2021"
+            "example": "2021-09-21T00:00:00.000Z"
           },
           "breed": {
             "type": "string",
@@ -1356,7 +1356,7 @@
             "type": "string",
             "format": "date",
             "description": "Pet's birthday",
-            "example": "8-22-2021"
+            "example": "2021-09-21T00:00:00.000Z"
           },
           "breed": {
             "type": "string",
@@ -1441,7 +1441,7 @@
             "type": "string",
             "format": "date",
             "description": "Pet's birthday",
-            "example": "8-22-2021"
+            "example": "2021-09-21T00:00:00.000Z"
           },
           "breed": {
             "type": "string",
@@ -2088,7 +2088,7 @@
           },
           "_id": "63d9c87277ab211223ccd24d",
           "title": "Сute dog looking for a home",
-          "birthdate": "8-22-2021",
+          "birthdate": "2021-09-21T00:00:00.000Z",
           "breed": "Border Terrier",
           "location": "Lviv, Lviv",
           "price": 150
@@ -2102,7 +2102,7 @@
           },
           "_id": "63d9c87277ab211223ccd24d",
           "title": "Сute dog looking for a home",
-          "birthdate": "8-22-2021",
+          "birthdate": "2021-09-21T00:00:00.000Z",
           "breed": "Border Terrier",
           "location": "Lviv, Lviv"
         }
