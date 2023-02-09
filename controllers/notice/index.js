@@ -82,7 +82,6 @@ const create = async (req, res) => {
 
 // повертає оголошення авторизованого користувача доданих ним же в обрані
 const getUserFavorites = async (req, res) => {
-  console.log(req.user._id);
   const result = await serviceNotice.listUserNoticeFavorites(req.user._id);
 
   res.status(200).json(result);
@@ -119,8 +118,6 @@ const removeNoticeWithFavorite = async (req, res) => {
 
   const notice = await serviceNotice.getById(id);
 
-  console.log(notice);
-
   if (notice) {
     const { _id, favorite } = req.user;
 
@@ -136,7 +133,6 @@ const removeNoticeWithFavorite = async (req, res) => {
     });
   }
 
-  console.log("test");
   res.status(404).json({ message: "Not found" });
 };
 
