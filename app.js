@@ -10,6 +10,7 @@ const noticeRouter = require("./routes/api/noticeRouter");
 const authRouter = require("./routes/api/authRouter");
 const serviceRouter = require("./routes/api/serviceRouter");
 const userRouter = require("./routes/api/userRouter");
+const petRouter = require("./routes/api/petRouter");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(logger(formatsLogger));
 app.use("/api/auth", authRouter);
 app.use("/api", serviceRouter);
 app.use("/api/users", userRouter);
+app.use("/api/pets", petRouter);
 app.use("/api/notices", noticeRouter);
 
 app.use((req, res) => {
